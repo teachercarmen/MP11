@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalSpark · Teacher Dashboard · Day One</title>
+<style>
+
+/* ── Reset ── */
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* ── Tokens ── */
+:root{
+  --navy:     #0f1e2d;
+  --navy-mid: #1b3a4b;
+  --teal:     #00bcd4;
+  --teal-dim: #0097a7;
+  --teal-soft:#e0f7fa;
+  --gold:     #ffc107;
+  --gold-soft:#fff8e1;
+  --white:    #ffffff;
+  --off:      #f0f4f6;
+  --text:     #1a2530;
+  --muted:    #607d8b;
+  --border:   #cfd8dc;
+  --card-bg:  #ffffff;
+  --radius:   10px;
+  --font:     'Segoe UI', system-ui, sans-serif;
+}
+
+body{
+  font-family:var(--font);
+  background:var(--off);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ── Header bar ── */
+.top-bar{
+  background:var(--navy);
+  padding:0.85rem 2rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.logo{
+  display:flex;align-items:center;gap:0.6rem;
+}
+.logo-mark{
+  width:32px;height:32px;border-radius:8px;
+  background:var(--teal);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:1.1rem;color:var(--navy);
+  letter-spacing:-1px;
+}
+.logo-name{
+  font-size:1.05rem;font-weight:700;color:var(--white);letter-spacing:0.3px;
+}
+.logo-tag{font-size:0.72rem;color:var(--teal);font-weight:600;letter-spacing:0.8px;margin-top:1px}
+.step-indicators{display:flex;gap:0.4rem;align-items:center}
+.step-dot{
+  width:28px;height:5px;border-radius:3px;
+  background:rgba(255,255,255,0.2);
+  transition:background 0.3s;
+}
+.step-dot.active{background:var(--teal)}
+.step-dot.done{background:rgba(0,188,212,0.45)}
+
+/* ── Main layout ── */
+.app{flex:1;display:flex;flex-direction:column;align-items:center;padding:2rem 1.5rem 4rem;gap:0}
+
+/* ── Screen ── */
+.screen{display:none;width:100%;max-width:800px;animation:fadeIn 0.25s ease}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Intro screen ── */
+.intro-hero{
+  background:var(--navy-mid);
+  border-radius:14px;
+  padding:2.5rem 2.5rem 2rem;
+  color:var(--white);
+  margin-bottom:1.5rem;
+  position:relative;
+  overflow:hidden;
+}
+.intro-hero::before{
+  content:"";
+  position:absolute;top:-40px;right:-40px;
+  width:200px;height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(0,188,212,0.18) 0%,transparent 70%);
+}
+.intro-hero .eyebrow{
+  font-size:0.72rem;font-weight:700;letter-spacing:1.2px;
+  color:var(--teal);margin-bottom:0.6rem;text-transform:uppercase;
+}
+.intro-hero h1{font-size:2rem;font-weight:800;line-height:1.15;margin-bottom:0.75rem}
+.intro-hero h1 span{color:var(--teal)}
+.intro-hero p{font-size:0.97rem;color:rgba(255,255,255,0.75);line-height:1.65;max-width:520px}
+
+.mission-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1.5rem}
+.mission-card{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.1rem 1.2rem;
+}
+.mission-card .mc-step{
+  font-size:0.68rem;font-weight:700;letter-spacing:1px;
+  color:var(--teal-dim);margin-bottom:0.5rem;text-transform:uppercase;
+}
+.mission-card .mc-title{font-size:0.97rem;font-weight:700;color:var(--text);margin-bottom:0.3rem}
+.mission-card p{font-size:0.85rem;color:var(--muted);line-height:1.55}
+
+/* ── Form screen ── */
+.form-header{margin-bottom:1.5rem}
+.form-header h2{font-size:1.35rem;font-weight:800;color:var(--navy-mid);margin-bottom:0.3rem}
+.form-header p{font-size:0.9rem;color:var(--muted)}
+
+.form-card{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:14px;padding:1.75rem 2rem;margin-bottom:1rem;
+}
+.form-section-label{
+  font-size:0.7rem;font-weight:700;letter-spacing:1px;
+  color:var(--teal-dim);text-transform:uppercase;margin-bottom:1.1rem;
+  display:flex;align-items:center;gap:6px;
+}
+.form-section-label::after{
+  content:"";flex:1;height:1px;background:var(--border);
+}
+
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.field-grid.full{grid-template-columns:1fr}
+@media(max-width:540px){.field-grid{grid-template-columns:1fr}}
+
+.field{display:flex;flex-direction:column;gap:0.4rem}
+.field label{font-size:0.8rem;font-weight:600;color:var(--text)}
+.field label .req{color:var(--teal);margin-left:2px}
+.field input,.field select,.field textarea{
+  border:1.5px solid var(--border);border-radius:7px;
+  padding:0.65rem 0.85rem;font-family:var(--font);font-size:0.9rem;
+  color:var(--text);background:#fff;
+  transition:border-color 0.15s;outline:none;
+  width:100%;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--teal)}
+.field textarea{resize:vertical;min-height:70px}
+.field .hint{font-size:0.76rem;color:var(--muted)}
+
+/* Role chips */
+.role-chips{display:flex;flex-wrap:wrap;gap:0.5rem}
+.role-chip{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 13px;border-radius:20px;
+  font-size:0.82rem;font-weight:600;cursor:pointer;
+  border:1.5px solid var(--border);background:#fff;
+  color:var(--muted);transition:all 0.15s;user-select:none;
+}
+.role-chip input[type=radio]{display:none}
+.role-chip:hover{border-color:var(--teal);color:var(--teal-dim)}
+.role-chip.selected{
+  border-color:var(--teal);background:var(--teal-soft);
+  color:var(--teal-dim);
+}
+.role-chip .chip-icon{font-size:1rem}
+
+/* Skill sliders */
+.skill-rows{display:flex;flex-direction:column;gap:0.85rem}
+.skill-row{display:flex;align-items:center;gap:1rem}
+.skill-name{font-size:0.84rem;font-weight:600;min-width:110px;color:var(--text)}
+.skill-slider{
+  -webkit-appearance:none;appearance:none;
+  flex:1;height:5px;border-radius:3px;
+  background:linear-gradient(to right,var(--teal) 0%,var(--teal) 50%,var(--border) 50%,var(--border) 100%);
+  outline:none;cursor:pointer;
+}
+.skill-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--teal);cursor:pointer;
+  box-shadow:0 1px 4px rgba(0,188,212,0.4);
+}
+.skill-level{font-size:0.78rem;font-weight:700;color:var(--teal-dim);min-width:55px;text-align:right}
+
+/* Superpower textarea */
+.power-wrap{position:relative}
+.power-wrap textarea{padding-right:4rem}
+.char-count{
+  position:absolute;bottom:8px;right:10px;
+  font-size:0.72rem;color:var(--muted);
+}
+
+/* ── Preview card ── */
+.preview-wrap{margin-bottom:1.25rem}
+.preview-label{
+  font-size:0.7rem;font-weight:700;letter-spacing:1px;
+  color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;
+}
+
+.agency-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 2px 16px rgba(15,30,45,0.08);
+}
+.card-top{
+  background:var(--navy-mid);
+  padding:1.25rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.card-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--teal);display:flex;align-items:center;justify-content:center;
+  font-size:1.35rem;font-weight:800;color:var(--navy);flex-shrink:0;
+  border:2px solid rgba(255,255,255,0.2);
+}
+.card-name-block .card-name{
+  font-size:1.15rem;font-weight:800;color:var(--white);line-height:1.2;
+}
+.card-name-block .card-role{
+  font-size:0.78rem;color:var(--teal);font-weight:600;margin-top:3px;
+}
+.card-id{
+  margin-left:auto;
+  font-size:0.68rem;color:rgba(255,255,255,0.35);
+  font-weight:600;letter-spacing:1px;
+}
+.card-body{padding:1.25rem 1.5rem}
+.card-body .card-origin{
+  font-size:0.82rem;color:var(--muted);margin-bottom:0.9rem;
+  display:flex;align-items:center;gap:5px;
+}
+.card-skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.9rem}
+.card-skill{
+  background:var(--off);border-radius:6px;padding:0.45rem 0.6rem;
+  text-align:center;
+}
+.card-skill .cs-name{font-size:0.7rem;color:var(--muted);font-weight:600}
+.card-skill .cs-bar{
+  margin-top:4px;height:4px;border-radius:2px;
+  background:var(--teal);
+}
+.card-power{
+  background:var(--gold-soft);border:1px solid #ffe082;
+  border-radius:8px;padding:0.7rem 0.9rem;margin-bottom:0.9rem;
+}
+.card-power .cp-label{
+  font-size:0.67rem;font-weight:700;letter-spacing:0.8px;
+  color:#f57f17;text-transform:uppercase;margin-bottom:3px;
+}
+.card-power p{font-size:0.86rem;color:var(--text);line-height:1.5;font-style:italic}
+.card-ambition{font-size:0.85rem;color:var(--text);line-height:1.5}
+.card-ambition strong{color:var(--navy-mid)}
+.card-footer{
+  padding:0.75rem 1.5rem;
+  background:var(--off);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:0.5rem;
+}
+.card-footer .cf-tag{
+  font-size:0.72rem;font-weight:700;color:var(--teal-dim);
+  background:var(--teal-soft);padding:3px 9px;border-radius:20px;
+}
+.card-footer .cf-prompt{
+  font-size:0.78rem;color:var(--muted);font-style:italic;
+}
+
+/* ── Gallery screen ── */
+.gallery-header{margin-bottom:1.5rem}
+.gallery-header h2{font-size:1.35rem;font-weight:800;color:var(--navy-mid);margin-bottom:0.3rem}
+.gallery-header p{font-size:0.9rem;color:var(--muted)}
+.gallery-controls{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.filter-btn{
+  padding:5px 14px;border-radius:20px;
+  font-size:0.8rem;font-weight:600;cursor:pointer;
+  border:1.5px solid var(--border);background:#fff;color:var(--muted);
+  transition:all 0.15s;
+}
+.filter-btn.active{border-color:var(--teal);background:var(--teal-soft);color:var(--teal-dim)}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+.gallery-card{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;cursor:pointer;
+  transition:box-shadow 0.15s,transform 0.15s;
+}
+.gallery-card:hover{box-shadow:0 4px 20px rgba(15,30,45,0.12);transform:translateY(-2px)}
+.gc-top{
+  background:var(--navy-mid);padding:1rem 1.2rem;
+  display:flex;align-items:center;gap:0.75rem;
+}
+.gc-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--teal);display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:800;color:var(--navy);flex-shrink:0;
+}
+.gc-name{font-size:0.95rem;font-weight:700;color:var(--white)}
+.gc-role{font-size:0.73rem;color:var(--teal);font-weight:600;margin-top:2px}
+.gc-body{padding:0.9rem 1.2rem}
+.gc-power{font-size:0.83rem;color:var(--text);font-style:italic;line-height:1.5;margin-bottom:0.7rem}
+.gc-skills{display:flex;flex-wrap:wrap;gap:0.35rem}
+.gc-skill-tag{
+  font-size:0.72rem;font-weight:600;padding:2px 8px;border-radius:12px;
+  background:var(--teal-soft);color:var(--teal-dim);
+}
+
+/* Mission screen */
+.missions-wrap{display:flex;flex-direction:column;gap:1.25rem;margin-bottom:1.5rem}
+.mission-item{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;padding:1.2rem 1.4rem;
+  display:flex;gap:1rem;align-items:flex-start;
+}
+.mission-num{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--teal);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.9rem;flex-shrink:0;
+}
+.mission-content h3{font-size:0.97rem;font-weight:700;color:var(--navy-mid);margin-bottom:0.3rem}
+.mission-content p{font-size:0.87rem;color:var(--muted);line-height:1.55}
+.mission-content .target{
+  display:inline-block;margin-top:0.5rem;font-size:0.78rem;font-weight:700;
+  color:var(--teal-dim);background:var(--teal-soft);
+  padding:2px 9px;border-radius:12px;
+}
+
+/* ── Buttons ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:0.7rem 1.5rem;border-radius:8px;font-family:var(--font);
+  font-size:0.9rem;font-weight:700;cursor:pointer;border:none;
+  transition:background 0.15s,transform 0.1s;
+}
+.btn:active{transform:scale(0.98)}
+.btn-primary{background:var(--teal);color:var(--navy)}
+.btn-primary:hover{background:var(--teal-dim)}
+.btn-outline{background:#fff;color:var(--navy-mid);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal-dim)}
+.btn-dark{background:var(--navy-mid);color:#fff}
+.btn-dark:hover{background:var(--navy)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:#ffb300}
+
+.btn-row{display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem}
+
+/* ── Toast ── */
+.toast{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--navy-mid);color:#fff;
+  padding:0.7rem 1.4rem;border-radius:8px;
+  font-size:0.88rem;font-weight:600;
+  transition:transform 0.3s ease;
+  z-index:100;
+  white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ── Teacher panel ── */
+.teacher-panel{
+  background:var(--navy);color:#fff;
+  border-radius:12px;padding:1.25rem 1.4rem;margin-bottom:1.25rem;
+}
+.teacher-panel h3{
+  font-size:0.78rem;font-weight:700;letter-spacing:0.8px;
+  color:var(--teal);text-transform:uppercase;margin-bottom:0.75rem;
+}
+.teacher-panel p{font-size:0.86rem;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:0.5rem}
+.teacher-panel p:last-child{margin-bottom:0}
+
+/* ── Vocab panel ── */
+.vocab-toggle{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:0.85rem 1.2rem;background:var(--navy-mid);color:#fff;
+  border:none;border-radius:10px;cursor:pointer;font-family:var(--font);
+  font-size:0.88rem;font-weight:700;margin-bottom:1rem;
+  transition:background 0.15s;
+}
+.vocab-toggle:hover{background:var(--navy)}
+.vocab-toggle .vt-arrow{font-size:0.8rem;transition:transform 0.2s}
+.vocab-toggle.open .vt-arrow{transform:rotate(180deg)}
+.vocab-panel{
+  display:none;background:var(--card-bg);border:1px solid var(--border);
+  border-radius:10px;padding:1.4rem 1.5rem;margin-bottom:1rem;
+}
+.vocab-panel.open{display:block}
+.vocab-sections{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem}
+.vocab-section h4{
+  font-size:0.7rem;font-weight:700;letter-spacing:0.8px;
+  text-transform:uppercase;color:var(--teal-dim);
+  margin-bottom:0.65rem;padding-bottom:0.4rem;
+  border-bottom:2px solid var(--teal-soft);
+}
+.vocab-section ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:0.35rem}
+.vocab-section li{font-size:0.84rem;color:var(--text);line-height:1.45;display:flex;gap:0.4rem}
+.vocab-section li .vw{font-weight:700;color:var(--navy-mid);min-width:0}
+.vocab-section li .vd{color:var(--muted);font-style:italic}
+.vocab-note{
+  margin-top:1rem;padding:0.7rem 1rem;
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  border-radius:0 6px 6px 0;font-size:0.82rem;color:#5a3e00;
+}
+
+/* ── Guided intro steps (gallery screen) ── */
+.intro-guide{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;margin-bottom:1.25rem;
+}
+.intro-guide-header{
+  background:var(--navy-mid);padding:0.9rem 1.3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;
+}
+.intro-guide-header h3{font-size:0.88rem;font-weight:700;color:#fff}
+.intro-guide-header span{font-size:0.78rem;color:var(--teal);font-weight:600}
+.intro-guide-body{padding:1.2rem 1.4rem;display:none}
+.intro-guide-body.open{display:block}
+
+.intro-steps{display:flex;flex-direction:column;gap:0}
+.intro-step{
+  display:flex;gap:0.9rem;padding:0.85rem 0;
+  border-bottom:1px solid var(--border);
+}
+.intro-step:last-child{border-bottom:none}
+.is-num{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--teal);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.82rem;flex-shrink:0;margin-top:2px;
+}
+.is-body{}
+.is-body .is-label{font-size:0.72rem;font-weight:700;letter-spacing:0.6px;color:var(--muted);text-transform:uppercase;margin-bottom:0.3rem}
+.is-body .is-model{
+  font-size:0.9rem;color:var(--navy-mid);line-height:1.6;font-weight:500;
+}
+.is-body .is-model .fill{
+  display:inline-block;
+  background:var(--teal-soft);color:var(--teal-dim);
+  border-bottom:2px solid var(--teal);
+  padding:0 4px;border-radius:3px;font-style:italic;font-weight:700;
+}
+.is-body .is-alt{font-size:0.8rem;color:var(--muted);margin-top:0.4rem;line-height:1.5}
+.is-body .is-alt strong{color:var(--text)}
+
+/* ── Pitch builder (missions screen) ── */
+.pitch-builder{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;margin-bottom:1.5rem;
+}
+.pb-header{
+  background:var(--navy);padding:1rem 1.4rem;
+  display:flex;align-items:center;justify-content:space-between;cursor:pointer;
+}
+.pb-header h3{font-size:0.92rem;font-weight:700;color:#fff}
+.pb-header .pb-tag{
+  font-size:0.72rem;font-weight:700;color:var(--teal);
+  background:rgba(0,188,212,0.15);padding:3px 9px;border-radius:12px;
+}
+.pb-body{padding:1.3rem 1.5rem;display:none}
+.pb-body.open{display:block}
+
+.pb-steps{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.25rem}
+.pb-step{
+  display:flex;gap:0.85rem;align-items:flex-start;
+  background:var(--off);border-radius:9px;padding:0.85rem 1rem;
+  border-left:3px solid var(--teal);
+}
+.pb-step-num{
+  min-width:28px;height:28px;border-radius:50%;
+  background:var(--teal);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.8rem;flex-shrink:0;
+}
+.pb-step-content{}
+.pb-step-content .pbs-time{
+  font-size:0.68rem;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.25rem;
+}
+.pb-step-content .pbs-label{font-size:0.88rem;font-weight:700;color:var(--navy-mid);margin-bottom:0.3rem}
+.pb-step-content .pbs-model{
+  font-size:0.84rem;color:var(--text);line-height:1.6;
+  background:#fff;border:1px solid var(--border);border-radius:6px;
+  padding:0.55rem 0.8rem;margin-top:0.35rem;
+}
+.pb-step-content .pbs-model .pf{
+  color:var(--teal-dim);font-weight:700;font-style:italic;
+  background:var(--teal-soft);padding:0 3px;border-radius:3px;
+}
+.pb-step-content .pbs-alts{font-size:0.78rem;color:var(--muted);margin-top:0.4rem;line-height:1.5}
+
+.pb-tips{
+  display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;
+}
+@media(max-width:500px){.pb-tips{grid-template-columns:1fr}}
+.pb-tip{
+  background:var(--gold-soft);border:1px solid #ffe082;
+  border-radius:8px;padding:0.75rem 0.9rem;
+}
+.pb-tip .pt-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#f57f17;margin-bottom:0.35rem}
+.pb-tip p{font-size:0.82rem;color:#4a3000;line-height:1.5}
+
+/* ── Responsive ── */
+@media(max-width:540px){
+  .intro-hero h1{font-size:1.5rem}
+  .form-card{padding:1.25rem}
+  .card-skills-grid{grid-template-columns:1fr 1fr}
+}
+
+
+/* Teacher badge */
+.teacher-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:#c03060;color:#fff;
+  font-size:0.68rem;font-weight:700;letter-spacing:0.5px;
+  padding:2px 9px;border-radius:20px;margin-left:8px;vertical-align:middle;
+}
+
+/* Live status banner */
+.live-bar{
+  background:#0a1825;border-bottom:3px solid var(--teal);
+  padding:0.6rem 2rem;
+  display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;
+}
+.live-dot{
+  width:9px;height:9px;border-radius:50%;background:#4caf50;flex-shrink:0;
+  box-shadow:0 0 0 3px rgba(76,175,80,0.2);
+  animation:livepulse 1.6s ease-in-out infinite;
+}
+@keyframes livepulse{0%,100%{box-shadow:0 0 0 3px rgba(76,175,80,0.2)}50%{box-shadow:0 0 0 7px rgba(76,175,80,0.05)}}
+.live-bar .lb-status{font-size:0.82rem;font-weight:700;color:var(--white)}
+.live-bar .lb-count{
+  font-size:0.78rem;font-weight:700;color:var(--teal);
+  background:rgba(0,188,212,0.12);padding:2px 10px;border-radius:20px;
+}
+.live-bar .lb-hint{font-size:0.75rem;color:rgba(255,255,255,0.35);margin-left:auto}
+
+/* Tab nav */
+.tab-nav{
+  display:flex;gap:0.5rem;flex-wrap:wrap;
+  padding:1.25rem 1.75rem 0;
+  background:#fff;border-bottom:1px solid var(--border);
+}
+.tab-btn{
+  padding:0.6rem 1.15rem;border-radius:8px 8px 0 0;
+  font-family:var(--font);font-size:0.85rem;font-weight:700;
+  cursor:pointer;border:1px solid transparent;border-bottom:none;
+  background:var(--off);color:var(--muted);transition:all 0.15s;
+}
+.tab-btn.active{
+  background:#fff;color:var(--navy-mid);
+  border-color:var(--border);border-bottom-color:#fff;
+  margin-bottom:-1px;
+}
+.tab-btn:hover:not(.active){background:#e4eaee}
+
+/* Tab panels */
+.tab-content{padding:1.5rem 1.75rem}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* Teacher gallery — projection-optimised */
+.t-gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:1.1rem;
+  margin-bottom:1.25rem;
+}
+.t-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 1px 8px rgba(15,30,45,0.07);
+}
+.tc-top{
+  background:var(--navy-mid);padding:1rem 1.25rem;
+  display:flex;align-items:center;gap:0.85rem;
+}
+.tc-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--teal);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:1.1rem;flex-shrink:0;
+}
+.tc-name{font-size:1rem;font-weight:800;color:#fff;line-height:1.2}
+.tc-role{font-size:0.73rem;color:var(--teal);font-weight:600;margin-top:2px}
+.tc-id{margin-left:auto;font-size:0.65rem;color:rgba(255,255,255,0.3);font-weight:600}
+.tc-body{padding:0.95rem 1.25rem}
+.tc-origin{font-size:0.8rem;color:var(--muted);margin-bottom:0.5rem}
+.tc-power{
+  font-size:0.88rem;font-style:italic;color:var(--text);
+  border-left:3px solid var(--gold);padding-left:0.7rem;
+  margin-bottom:0.65rem;line-height:1.55;
+}
+.tc-skills{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.45rem}
+.tc-skill{
+  font-size:0.71rem;font-weight:600;padding:2px 8px;border-radius:12px;
+  background:var(--teal-soft);color:var(--teal-dim);
+}
+.tc-ambition{font-size:0.79rem;color:var(--muted);line-height:1.4}
+
+/* Gallery controls */
+.g-controls{
+  display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;
+  margin-bottom:1.1rem;
+}
+.g-count{
+  font-size:0.85rem;font-weight:700;
+  background:var(--teal-soft);color:var(--teal-dim);
+  padding:4px 12px;border-radius:20px;
+}
+.filter-pill{
+  padding:4px 12px;border-radius:20px;
+  font-size:0.78rem;font-weight:600;cursor:pointer;
+  border:1.5px solid var(--border);background:#fff;color:var(--muted);
+  transition:all 0.12s;
+}
+.filter-pill:hover,.filter-pill.on{
+  border-color:var(--teal);background:var(--teal-soft);color:var(--teal-dim);
+}
+
+/* Empty state */
+.t-empty{
+  text-align:center;padding:3.5rem 1rem;color:var(--muted);
+  grid-column:1/-1;
+}
+.t-empty .te-icon{font-size:2.5rem;margin-bottom:0.75rem}
+.t-empty p{font-size:0.9rem;line-height:1.65}
+
+/* Group builder */
+.groups-wrap{display:flex;flex-direction:column;gap:1rem}
+.group-row{
+  background:#fff;border:1px solid var(--border);border-radius:10px;
+  padding:1rem 1.25rem;
+}
+.gr-label{
+  font-size:0.7rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.6px;color:var(--teal-dim);margin-bottom:0.65rem;
+}
+.gr-members{display:flex;flex-wrap:wrap;gap:0.5rem}
+.gr-member{
+  display:flex;align-items:center;gap:0.5rem;
+  background:var(--off);border:1px solid var(--border);
+  border-radius:8px;padding:0.45rem 0.75rem;
+}
+.gr-avatar{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--teal);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.72rem;flex-shrink:0;
+}
+.gr-info .gr-name{font-size:0.82rem;font-weight:700;color:var(--navy-mid)}
+.gr-info .gr-role{font-size:0.7rem;color:var(--muted)}
+
+/* Setup box */
+.setup-box{
+  background:var(--navy);color:#fff;border-radius:12px;
+  padding:1.25rem 1.4rem;margin-bottom:1rem;
+}
+.setup-box h3{
+  font-size:0.75rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.7px;color:var(--teal);margin-bottom:0.75rem;
+}
+.setup-box p{font-size:0.86rem;color:rgba(255,255,255,0.7);line-height:1.65;margin-bottom:0.5rem}
+.setup-box p:last-child{margin-bottom:0}
+.setup-box code{
+  background:rgba(0,188,212,0.18);padding:1px 6px;
+  border-radius:4px;font-size:0.84rem;color:var(--teal);
+}
+
+/* Session steps */
+.session-steps{display:flex;flex-direction:column;gap:0.75rem}
+.ss-item{
+  background:#fff;border:1px solid var(--border);border-radius:10px;
+  padding:1rem 1.2rem;display:flex;gap:0.9rem;
+}
+.ss-num{
+  min-width:28px;height:28px;border-radius:50%;
+  background:var(--teal);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.8rem;flex-shrink:0;margin-top:2px;
+}
+.ss-body .ss-time{
+  font-size:0.68rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.5px;color:var(--muted);margin-bottom:0.2rem;
+}
+.ss-body .ss-title{font-size:0.93rem;font-weight:700;color:var(--navy-mid);margin-bottom:0.3rem}
+.ss-body p{font-size:0.85rem;color:#455a64;line-height:1.6}
+.ss-body em{color:var(--navy-mid);font-style:italic}
+
+.no-groups{font-size:0.88rem;color:var(--muted);padding:1rem 0}
+
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="logo">
+    <div class="logo-mark">GS</div>
+    <div>
+      <div class="logo-name">GlobalSpark Agency <span class="teacher-badge">👩‍🏫 TEACHER</span></div>
+      <div class="logo-tag">Day One Dashboard · IES Joan Miró · Inglés Profesional 1.º CFGS · 2026-27</div>
+    </div>
+  </div>
+</div>
+
+<!-- LIVE STATUS BAR -->
+<div class="live-bar">
+  <div class="live-dot"></div>
+  <span class="lb-status">Live gallery</span>
+  <span class="lb-count" id="liveCount">0 cards</span>
+  <span class="lb-hint" id="lastRefresh">Refreshing automatically…</span>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <button class="tab-btn active" id="tab-cards" onclick="switchTab('cards')">📋 Student cards</button>
+  <button class="tab-btn" id="tab-groups" onclick="switchTab('groups')">👥 Form groups</button>
+  <button class="tab-btn" id="tab-notes" onclick="switchTab('notes')">📝 Session notes</button>
+</div>
+
+<!-- ══ TAB: CARDS ══════════════════════════════════════════════════════════ -->
+<div class="tab-content tab-panel active" id="panel-cards">
+
+  <div class="g-controls">
+    <span class="g-count" id="cardCount">0 students</span>
+    <button class="filter-pill on" onclick="setFilter('all',this)">All</button>
+    <button class="filter-pill" onclick="setFilter('Creative',this)">🎨 Creative</button>
+    <button class="filter-pill" onclick="setFilter('Strategist',this)">🧠 Strategist</button>
+    <button class="filter-pill" onclick="setFilter('Digital',this)">📱 Digital</button>
+    <button class="filter-pill" onclick="setFilter('Copywriter',this)">✍️ Copywriter</button>
+    <button class="filter-pill" onclick="setFilter('Account Manager',this)">🤝 Account</button>
+    <button class="filter-pill" onclick="setFilter('Data Analyst',this)">📊 Data</button>
+    <button class="filter-pill" onclick="setFilter('Art Director',this)">🖼️ Art Dir.</button>
+    <button class="filter-pill" onclick="setFilter('Brand Manager',this)">⭐ Brand</button>
+    <button class="btn btn-outline" onclick="refreshNow()" style="margin-left:auto">↺ Refresh</button>
+    <button class="btn btn-outline" onclick="addDemoCards()" style="color:#0097a7;border-color:#0097a7">+ Demo cards</button>
+    <button class="btn btn-outline" onclick="confirmClear()" style="color:#c03060;border-color:#c03060">🗑 Clear all</button>
+  </div>
+
+  <div class="t-gallery" id="teacherGallery">
+    <div class="t-empty">
+      <div class="te-icon">⏳</div>
+      <p>Waiting for students to submit their Talent Cards…<br>
+         Open <strong>globalSpark_student.html</strong> in another tab and submit a card to test.<br>
+         Cards appear here automatically within a few seconds.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ TAB: GROUPS ════════════════════════════════════════════════════════ -->
+<div class="tab-content tab-panel" id="panel-groups">
+
+  <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem">
+    <label style="font-size:0.88rem;font-weight:600;color:var(--navy-mid)">Students per group:</label>
+    <select id="groupSize" style="padding:5px 10px;border:1.5px solid var(--border);border-radius:7px;font-family:var(--font);font-size:0.88rem">
+      <option value="2">2</option>
+      <option value="3" selected>3</option>
+      <option value="4">4</option>
+    </select>
+    <button class="btn btn-primary" onclick="makeGroups(false)">Generate balanced groups</button>
+    <button class="btn btn-outline" onclick="makeGroups(true)">🔀 Random shuffle</button>
+  </div>
+
+  <div class="groups-wrap" id="groupsWrap">
+    <p class="no-groups">Groups will appear here once students have submitted cards. Use <em>Generate balanced groups</em> to auto-balance by role.</p>
+  </div>
+
+</div>
+
+<!-- ══ TAB: SESSION NOTES ═════════════════════════════════════════════════ -->
+<div class="tab-content tab-panel" id="panel-notes">
+
+  <div class="setup-box">
+    <h3>Setup — before students arrive</h3>
+    <p><strong>1.</strong> Open this teacher dashboard on your computer (connected to the projector). Keep it on the <em>Student cards</em> tab so cards appear live as students submit.</p>
+    <p><strong>2.</strong> Share <code>globalSpark_student.html</code> with students — via QR code, Google Classroom, Teams, or the class WhatsApp group. Students open it on their phones.</p>
+    <p><strong>3.</strong> Both files use the key <code>globalspark2526</code> to sync. Cards submitted by students in other browser tabs on the same computer appear here automatically. For cross-device sharing between student phones and your computer, host the files on a local network (see note below).</p>
+    <p style="margin-top:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.4)">Cross-device tip: run <code>python -m http.server 8000</code> in the folder with both files, then share your IP address (e.g. 192.168.1.x:8000). All devices on the school WiFi can then access both files and cards sync via the shared localStorage key.</p>
+  </div>
+
+  <div class="teacher-panel">
+    <h3>Teacher notes</h3>
+    <p><strong>Setup:</strong> Project this on screen. Students open the link on their phones or use classroom computers. Each student fills in their own Talent Card (~8 min). Cards appear in the live gallery as they are submitted.</p>
+    <p><strong>Team finding:</strong> Students browse the gallery, identify 2 colleagues with complementary skills, and introduce themselves in English using the conversation prompt on their card (~7 min).</p>
+    <p><strong>Agency missions:</strong> Teams of 3 complete one of the three mini-briefs on Screen 4 (~10 min). Each team pitches their idea in 60 seconds to the class. Teacher selects the best pitch.</p>
+    <p><strong>Total time:</strong> ~30–35 minutes. No accounts needed. Cards reset when the page is refreshed.</p>
+  </div>
+
+  <div class="session-steps" style="margin-top:1.25rem">
+    <div class="ss-item"><div class="ss-num">1</div><div class="ss-body">
+      <div class="ss-time">0–2 min</div>
+      <div class="ss-title">Set the scene</div>
+      <p>Project this dashboard. Tell students: <em>"You are now employees of GlobalSpark — a Madrid-based international marketing agency. Before you start work, the HR team needs your profile. Open the link I'm sharing and fill in your Talent Card. In English."</em></p>
+    </div></div>
+    <div class="ss-item"><div class="ss-num">2</div><div class="ss-body">
+      <div class="ss-time">2–10 min · Individual</div>
+      <div class="ss-title">Students fill in their Talent Card</div>
+      <p>Watch cards appear on your screen live. Encourage students to open the Vocabulary panel if stuck. Circulate and prompt: <em>"What role fits you best?" "What's something you can do that most people can't?"</em> Remind them: short and honest beats long and invented.</p>
+    </div></div>
+    <div class="ss-item"><div class="ss-num">3</div><div class="ss-body">
+      <div class="ss-time">10–17 min · Pair/group</div>
+      <div class="ss-title">Browse the gallery — find your team</div>
+      <p>Switch your projector to the <strong>Student cards</strong> tab. Students browse the gallery on their phones to find 2 colleagues with complementary skills. They must introduce themselves in English using the guided steps in the app. Circulate: <em>"What's their role?" "Why did you choose them?"</em></p>
+    </div></div>
+    <div class="ss-item"><div class="ss-num">4</div><div class="ss-body">
+      <div class="ss-time">17–27 min · Teams of 3</div>
+      <div class="ss-title">Agency Mission — prepare and pitch</div>
+      <p>Assign each team a brief (A, B or C — visible in their app). Go to the <strong>Form groups</strong> tab and project the teams. Teams use the Pitch Builder to prepare. Tell them: <em>"You have 5 minutes. Then 60 seconds to pitch. Use the structure in your app. Go."</em></p>
+    </div></div>
+    <div class="ss-item"><div class="ss-num">5</div><div class="ss-body">
+      <div class="ss-time">27–35 min · Class</div>
+      <div class="ss-title">Pitches + debrief</div>
+      <p>Each team pitches in 60 seconds. Class votes: most creative / most realistic / best tagline. Introduce key vocabulary: <em>target audience, brand voice, USP, call to action, engagement.</em> Close: <em>"These clients — GreenLife Organics, La Tienda del Campo — you'll see them again all year. You've just started building their campaigns."</em></p>
+    </div></div>
+  </div>
+
+  <div style="margin-top:1.5rem">
+    <div class="teacher-panel">
+    <h3>Conversation task</h3>
+    <p>Find someone with a skill you don't have. Introduce yourself in English using this structure:</p>
+    <p style="color:var(--white);font-style:italic">"Hi, I'm [name]. I'm the [role] at GlobalSpark. My superpower is [superpower]. I noticed your skill in [their skill] — I think we could work well together because [reason]. What's your ambition here?"</p>
+  </div>
+  </div>
+  <div style="margin-top:1rem">
+    <div class="teacher-panel">
+    <h3>Debrief notes</h3>
+    <p><strong>After the pitches:</strong> Ask the class — which pitch was most creative? Which was most realistic? Which had the best tagline? Use real marketing vocabulary: target audience, brand voice, USP, call to action.</p>
+    <p><strong>The names on these briefs (GreenLife Organics, La Tienda del Campo) will appear again throughout this course</strong> — they are GlobalSpark's permanent clients. Students are already building their professional context for the year.</p>
+  </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Cross-device sync via JSONBin.io ─────────────────────────────────────────
+// Setup (one-time, before first class):
+//   1. Go to https://jsonbin.io → Sign up free (email only)
+//   2. Go to API Keys → copy your Master Key
+//   3. Create a new Bin with content: {"cards":[]}
+//   4. Copy the Bin ID from the URL
+//   5. Paste both values below
+
+const JSONBIN_KEY = "PASTE_YOUR_MASTER_KEY_HERE";
+const JSONBIN_BIN = "PASTE_YOUR_BIN_ID_HERE";
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN}`;
+
+const IS_CONFIGURED = JSONBIN_KEY !== "PASTE_YOUR_MASTER_KEY_HERE" && JSONBIN_BIN !== "PASTE_YOUR_BIN_ID_HERE";
+
+// ── Read all cards ─────────────────────────────────────────────────────────
+async function loadCards() {
+  if (!IS_CONFIGURED) return _localLoad();
+  try {
+    const res = await fetch(JSONBIN_URL + "/latest", {
+      headers: { "X-Master-Key": JSONBIN_KEY }
+    });
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    return data.record?.cards || [];
+  } catch(e) {
+    console.warn("JSONBin read failed, using local:", e);
+    return _localLoad();
+  }
+}
+
+// ── Save a card ────────────────────────────────────────────────────────────
+async function saveCard(cardData) {
+  if (!IS_CONFIGURED) { _localSave(cardData); return true; }
+  try {
+    // Read current, add card, write back
+    const current = await loadCards();
+    const updated = current.filter(c => c.id !== cardData.id);
+    updated.push(cardData);
+    const res = await fetch(JSONBIN_URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": JSONBIN_KEY
+      },
+      body: JSON.stringify({ cards: updated })
+    });
+    if (!res.ok) throw new Error(res.status);
+    _localSave(cardData); // mirror locally as backup
+    return true;
+  } catch(e) {
+    console.warn("JSONBin write failed, saved locally only:", e);
+    _localSave(cardData);
+    return false;
+  }
+}
+
+// ── Delete all cards ───────────────────────────────────────────────────────
+async function deleteAllCards() {
+  if (!IS_CONFIGURED) { localStorage.removeItem("gs_cards_local"); return; }
+  try {
+    await fetch(JSONBIN_URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": JSONBIN_KEY
+      },
+      body: JSON.stringify({ cards: [] })
+    });
+    localStorage.removeItem("gs_cards_local");
+  } catch(e) { console.warn("Clear failed:", e); }
+}
+
+// ── No-API listener (teacher tab polls instead) ────────────────────────────
+function listenForCards(callback) {
+  // JSONBin has no websocket — teacher polls via setInterval
+  // This is a no-op; polling is handled directly in teacher JS
+  return null;
+}
+
+// ── Local fallback (same-device testing) ──────────────────────────────────
+function _localSave(card) {
+  try {
+    const key = "gs_cards_local";
+    let cards = _localLoad();
+    cards = cards.filter(c => c.id !== card.id);
+    cards.push(card);
+    localStorage.setItem(key, JSON.stringify(cards));
+  } catch(e) {}
+}
+function _localLoad() {
+  try {
+    const raw = localStorage.getItem("gs_cards_local");
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) { return []; }
+}
+
+
+const SKILLS = [
+  {name:"Social media",key:"social"},{name:"Copywriting",key:"copy"},
+  {name:"Design",key:"design"},{name:"Data",key:"data"},
+  {name:"Video",key:"video"},{name:"Strategy",key:"strategy"}
+];
+const SKILL_LABELS = ["Beginner","Developing","Comfortable","Strong","Expert"];
+
+let allCards = [];
+let currentFilter = "all";
+
+function refreshNow() {
+  loadCards().then(cards => {
+    if (JSON.stringify(cards) !== JSON.stringify(allCards)) {
+      allCards = cards;
+      renderGallery();
+      renderGroups();
+    }
+    const t = new Date();
+    document.getElementById("lastRefresh").textContent =
+      "Last update: " + t.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+    document.getElementById("liveCount").textContent =
+      allCards.length + " card" + (allCards.length !== 1 ? "s" : "");
+  }).catch(e => console.warn("Refresh failed:", e));
+}
+
+function setFilter(role, el) {
+  currentFilter = role;
+  document.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("on"));
+  el.classList.add("on");
+  renderGallery();
+}
+
+function renderGallery() {
+  const grid = document.getElementById("teacherGallery");
+  const filtered = currentFilter === "all" ? allCards : allCards.filter(c => c.role === currentFilter);
+  document.getElementById("cardCount").textContent = allCards.length + " student" + (allCards.length !== 1 ? "s" : "");
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="t-empty"><div class="te-icon">⏳</div>
+      <p>${allCards.length === 0 ?
+        "Waiting for students to submit their Talent Cards…<br>Cards appear here automatically every few seconds." :
+        "No cards match this filter."}</p></div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(buildCard).join("");
+}
+
+function buildCard(d) {
+  const top3 = SKILLS.map(s => ({name:s.name,v:d.skills?.[s.key]||0}))
+    .sort((a,b) => b.v - a.v).slice(0,3);
+  const skillChips = top3.map(s =>
+    `<span class="tc-skill">${s.name} · ${SKILL_LABELS[s.v]}</span>`).join("");
+  return `<div class="t-card" data-role="${d.role||""}">
+    <div class="tc-top">
+      <div class="tc-avatar">${(d.fname||"?")[0].toUpperCase()}</div>
+      <div>
+        <div class="tc-name">${d.fname||"—"}${d.oneword ? ` <span style="font-weight:400;font-size:0.77rem;opacity:0.5">· ${d.oneword}</span>` : ""}</div>
+        <div class="tc-role">${d.role||""}${d.level ? " · "+d.level : ""}</div>
+      </div>
+      <div class="tc-id">${d.id||""}</div>
+    </div>
+    <div class="tc-body">
+      ${d.origin ? `<div class="tc-origin">📍 ${d.origin}</div>` : ""}
+      ${d.superpower ? `<div class="tc-power">"${d.superpower}"</div>` : ""}
+      <div class="tc-skills">${skillChips}</div>
+      ${d.ambition ? `<div class="tc-ambition">🎯 ${d.ambition}</div>` : ""}
+    </div>
+  </div>`;
+}
+
+let currentGroups = [];
+function makeGroups(random) {
+  if (allCards.length === 0) { showToast("No student cards yet!"); return; }
+  const size = parseInt(document.getElementById("groupSize").value) || 3;
+  let pool = random
+    ? [...allCards].sort(() => Math.random() - 0.5)
+    : [...allCards].sort((a,b) => (a.role||"").localeCompare(b.role||""));
+  currentGroups = [];
+  let g = [];
+  pool.forEach((c,i) => {
+    g.push(c);
+    if (g.length === size || i === pool.length - 1) { currentGroups.push([...g]); g = []; }
+  });
+  renderGroups();
+}
+
+function renderGroups() {
+  const wrap = document.getElementById("groupsWrap");
+  if (!wrap) return;
+  if (currentGroups.length === 0) {
+    wrap.innerHTML = allCards.length > 0
+      ? '<p class="no-groups">Click <em>Generate balanced groups</em> above.</p>'
+      : '<p class="no-groups">Groups will appear here once students have submitted cards.</p>';
+    return;
+  }
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  wrap.innerHTML = currentGroups.map((g,i) => `
+    <div class="group-row">
+      <div class="gr-label">Group ${letters[i]}</div>
+      <div class="gr-members">
+        ${g.map(m => `<div class="gr-member">
+          <div class="gr-avatar">${(m.fname||"?")[0].toUpperCase()}</div>
+          <div class="gr-info">
+            <div class="gr-name">${m.fname||"—"}</div>
+            <div class="gr-role">${m.role||""}</div>
+          </div>
+        </div>`).join("")}
+      </div>
+    </div>`).join("");
+}
+
+function switchTab(id) {
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+  document.getElementById("tab-" + id).classList.add("active");
+  document.getElementById("panel-" + id).classList.add("active");
+}
+
+const DEMOS = [
+  {fname:"Carlos",origin:"Vallecas",oneword:"analytical",level:"B1+",role:"Data Analyst",
+    skills:{social:3,copy:2,design:1,data:4,video:2,strategy:3},
+    superpower:"I can find a story in any spreadsheet — even a boring one",
+    ambition:"Present data in a way clients actually understand",id:"GS-4421",ts:Date.now()-5000},
+  {fname:"Lucía",origin:"Sevilla",oneword:"energetic",level:"B1",role:"Creative",
+    skills:{social:4,copy:3,design:4,data:1,video:3,strategy:2},
+    superpower:"I can sketch a campaign concept in 3 minutes flat",
+    ambition:"Direct my first video campaign before the end of the year",id:"GS-7832",ts:Date.now()-4000},
+  {fname:"Ahmed",origin:"Tetuán / Madrid",oneword:"precise",level:"B2",role:"Copywriter",
+    skills:{social:3,copy:4,design:2,data:2,video:1,strategy:3},
+    superpower:"I speak Arabic, Spanish and English — three ways of thinking",
+    ambition:"Write copy that makes people stop scrolling",id:"GS-2219",ts:Date.now()-3000},
+  {fname:"Marta",origin:"Valencia",oneword:"organised",level:"B1",role:"Account Manager",
+    skills:{social:2,copy:2,design:1,data:3,video:1,strategy:4},
+    superpower:"I always know what the client means, not just what they say",
+    ambition:"Run my first client meeting in English",id:"GS-5534",ts:Date.now()-2000},
+  {fname:"Diego",origin:"Buenos Aires / Madrid",oneword:"bold",level:"B2",role:"Strategist",
+    skills:{social:3,copy:3,design:2,data:3,video:2,strategy:4},
+    superpower:"I can see the gap in a market before anyone notices it exists",
+    ambition:"Build a strategy that gets picked up by a real brand",id:"GS-8841",ts:Date.now()-1000},
+];
+
+async function addDemoCards() {
+  for (const d of DEMOS) await saveCard(d);
+  await refreshNow();
+  showToast("✅ 5 demo cards added");
+}
+
+async function confirmClear() {
+  if (confirm("Delete ALL student cards? This cannot be undone.")) {
+    await deleteAllCards();
+    allCards = [];
+    currentGroups = [];
+    renderGallery();
+    renderGroups();
+    showToast("🗑 Cards cleared");
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2800);
+}
+
+// Auto-refresh every 4 seconds
+setInterval(refreshNow, 4000);
+
+// Init
+refreshNow();
+
+</script>
+</body>
+</html>

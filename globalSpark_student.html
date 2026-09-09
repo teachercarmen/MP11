@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalSpark · Agency Casting · Day One</title>
+<style>
+
+/* ── Reset ── */
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* ── Tokens ── */
+:root{
+  --navy:     #0f1e2d;
+  --navy-mid: #1b3a4b;
+  --teal:     #00bcd4;
+  --teal-dim: #0097a7;
+  --teal-soft:#e0f7fa;
+  --gold:     #ffc107;
+  --gold-soft:#fff8e1;
+  --white:    #ffffff;
+  --off:      #f0f4f6;
+  --text:     #1a2530;
+  --muted:    #607d8b;
+  --border:   #cfd8dc;
+  --card-bg:  #ffffff;
+  --radius:   10px;
+  --font:     'Segoe UI', system-ui, sans-serif;
+}
+
+body{
+  font-family:var(--font);
+  background:var(--off);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ── Header bar ── */
+.top-bar{
+  background:var(--navy);
+  padding:0.85rem 2rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.logo{
+  display:flex;align-items:center;gap:0.6rem;
+}
+.logo-mark{
+  width:32px;height:32px;border-radius:8px;
+  background:var(--teal);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:1.1rem;color:var(--navy);
+  letter-spacing:-1px;
+}
+.logo-name{
+  font-size:1.05rem;font-weight:700;color:var(--white);letter-spacing:0.3px;
+}
+.logo-tag{font-size:0.72rem;color:var(--teal);font-weight:600;letter-spacing:0.8px;margin-top:1px}
+.step-indicators{display:flex;gap:0.4rem;align-items:center}
+.step-dot{
+  width:28px;height:5px;border-radius:3px;
+  background:rgba(255,255,255,0.2);
+  transition:background 0.3s;
+}
+.step-dot.active{background:var(--teal)}
+.step-dot.done{background:rgba(0,188,212,0.45)}
+
+/* ── Main layout ── */
+.app{flex:1;display:flex;flex-direction:column;align-items:center;padding:2rem 1.5rem 4rem;gap:0}
+
+/* ── Screen ── */
+.screen{display:none;width:100%;max-width:800px;animation:fadeIn 0.25s ease}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Intro screen ── */
+.intro-hero{
+  background:var(--navy-mid);
+  border-radius:14px;
+  padding:2.5rem 2.5rem 2rem;
+  color:var(--white);
+  margin-bottom:1.5rem;
+  position:relative;
+  overflow:hidden;
+}
+.intro-hero::before{
+  content:"";
+  position:absolute;top:-40px;right:-40px;
+  width:200px;height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(0,188,212,0.18) 0%,transparent 70%);
+}
+.intro-hero .eyebrow{
+  font-size:0.72rem;font-weight:700;letter-spacing:1.2px;
+  color:var(--teal);margin-bottom:0.6rem;text-transform:uppercase;
+}
+.intro-hero h1{font-size:2rem;font-weight:800;line-height:1.15;margin-bottom:0.75rem}
+.intro-hero h1 span{color:var(--teal)}
+.intro-hero p{font-size:0.97rem;color:rgba(255,255,255,0.75);line-height:1.65;max-width:520px}
+
+.mission-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1.5rem}
+.mission-card{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.1rem 1.2rem;
+}
+.mission-card .mc-step{
+  font-size:0.68rem;font-weight:700;letter-spacing:1px;
+  color:var(--teal-dim);margin-bottom:0.5rem;text-transform:uppercase;
+}
+.mission-card .mc-title{font-size:0.97rem;font-weight:700;color:var(--text);margin-bottom:0.3rem}
+.mission-card p{font-size:0.85rem;color:var(--muted);line-height:1.55}
+
+/* ── Form screen ── */
+.form-header{margin-bottom:1.5rem}
+.form-header h2{font-size:1.35rem;font-weight:800;color:var(--navy-mid);margin-bottom:0.3rem}
+.form-header p{font-size:0.9rem;color:var(--muted)}
+
+.form-card{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:14px;padding:1.75rem 2rem;margin-bottom:1rem;
+}
+.form-section-label{
+  font-size:0.7rem;font-weight:700;letter-spacing:1px;
+  color:var(--teal-dim);text-transform:uppercase;margin-bottom:1.1rem;
+  display:flex;align-items:center;gap:6px;
+}
+.form-section-label::after{
+  content:"";flex:1;height:1px;background:var(--border);
+}
+
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.field-grid.full{grid-template-columns:1fr}
+@media(max-width:540px){.field-grid{grid-template-columns:1fr}}
+
+.field{display:flex;flex-direction:column;gap:0.4rem}
+.field label{font-size:0.8rem;font-weight:600;color:var(--text)}
+.field label .req{color:var(--teal);margin-left:2px}
+.field input,.field select,.field textarea{
+  border:1.5px solid var(--border);border-radius:7px;
+  padding:0.65rem 0.85rem;font-family:var(--font);font-size:0.9rem;
+  color:var(--text);background:#fff;
+  transition:border-color 0.15s;outline:none;
+  width:100%;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--teal)}
+.field textarea{resize:vertical;min-height:70px}
+.field .hint{font-size:0.76rem;color:var(--muted)}
+
+/* Role chips */
+.role-chips{display:flex;flex-wrap:wrap;gap:0.5rem}
+.role-chip{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 13px;border-radius:20px;
+  font-size:0.82rem;font-weight:600;cursor:pointer;
+  border:1.5px solid var(--border);background:#fff;
+  color:var(--muted);transition:all 0.15s;user-select:none;
+}
+.role-chip input[type=radio]{display:none}
+.role-chip:hover{border-color:var(--teal);color:var(--teal-dim)}
+.role-chip.selected{
+  border-color:var(--teal);background:var(--teal-soft);
+  color:var(--teal-dim);
+}
+.role-chip .chip-icon{font-size:1rem}
+
+/* Skill sliders */
+.skill-rows{display:flex;flex-direction:column;gap:0.85rem}
+.skill-row{display:flex;align-items:center;gap:1rem}
+.skill-name{font-size:0.84rem;font-weight:600;min-width:110px;color:var(--text)}
+.skill-slider{
+  -webkit-appearance:none;appearance:none;
+  flex:1;height:5px;border-radius:3px;
+  background:linear-gradient(to right,var(--teal) 0%,var(--teal) 50%,var(--border) 50%,var(--border) 100%);
+  outline:none;cursor:pointer;
+}
+.skill-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--teal);cursor:pointer;
+  box-shadow:0 1px 4px rgba(0,188,212,0.4);
+}
+.skill-level{font-size:0.78rem;font-weight:700;color:var(--teal-dim);min-width:55px;text-align:right}
+
+/* Superpower textarea */
+.power-wrap{position:relative}
+.power-wrap textarea{padding-right:4rem}
+.char-count{
+  position:absolute;bottom:8px;right:10px;
+  font-size:0.72rem;color:var(--muted);
+}
+
+/* ── Preview card ── */
+.preview-wrap{margin-bottom:1.25rem}
+.preview-label{
+  font-size:0.7rem;font-weight:700;letter-spacing:1px;
+  color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;
+}
+
+.agency-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 2px 16px rgba(15,30,45,0.08);
+}
+.card-top{
+  background:var(--navy-mid);
+  padding:1.25rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.card-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--teal);display:flex;align-items:center;justify-content:center;
+  font-size:1.35rem;font-weight:800;color:var(--navy);flex-shrink:0;
+  border:2px solid rgba(255,255,255,0.2);
+}
+.card-name-block .card-name{
+  font-size:1.15rem;font-weight:800;color:var(--white);line-height:1.2;
+}
+.card-name-block .card-role{
+  font-size:0.78rem;color:var(--teal);font-weight:600;margin-top:3px;
+}
+.card-id{
+  margin-left:auto;
+  font-size:0.68rem;color:rgba(255,255,255,0.35);
+  font-weight:600;letter-spacing:1px;
+}
+.card-body{padding:1.25rem 1.5rem}
+.card-body .card-origin{
+  font-size:0.82rem;color:var(--muted);margin-bottom:0.9rem;
+  display:flex;align-items:center;gap:5px;
+}
+.card-skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.9rem}
+.card-skill{
+  background:var(--off);border-radius:6px;padding:0.45rem 0.6rem;
+  text-align:center;
+}
+.card-skill .cs-name{font-size:0.7rem;color:var(--muted);font-weight:600}
+.card-skill .cs-bar{
+  margin-top:4px;height:4px;border-radius:2px;
+  background:var(--teal);
+}
+.card-power{
+  background:var(--gold-soft);border:1px solid #ffe082;
+  border-radius:8px;padding:0.7rem 0.9rem;margin-bottom:0.9rem;
+}
+.card-power .cp-label{
+  font-size:0.67rem;font-weight:700;letter-spacing:0.8px;
+  color:#f57f17;text-transform:uppercase;margin-bottom:3px;
+}
+.card-power p{font-size:0.86rem;color:var(--text);line-height:1.5;font-style:italic}
+.card-ambition{font-size:0.85rem;color:var(--text);line-height:1.5}
+.card-ambition strong{color:var(--navy-mid)}
+.card-footer{
+  padding:0.75rem 1.5rem;
+  background:var(--off);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:0.5rem;
+}
+.card-footer .cf-tag{
+  font-size:0.72rem;font-weight:700;color:var(--teal-dim);
+  background:var(--teal-soft);padding:3px 9px;border-radius:20px;
+}
+.card-footer .cf-prompt{
+  font-size:0.78rem;color:var(--muted);font-style:italic;
+}
+
+/* ── Gallery screen ── */
+.gallery-header{margin-bottom:1.5rem}
+.gallery-header h2{font-size:1.35rem;font-weight:800;color:var(--navy-mid);margin-bottom:0.3rem}
+.gallery-header p{font-size:0.9rem;color:var(--muted)}
+.gallery-controls{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.filter-btn{
+  padding:5px 14px;border-radius:20px;
+  font-size:0.8rem;font-weight:600;cursor:pointer;
+  border:1.5px solid var(--border);background:#fff;color:var(--muted);
+  transition:all 0.15s;
+}
+.filter-btn.active{border-color:var(--teal);background:var(--teal-soft);color:var(--teal-dim)}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+.gallery-card{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;cursor:pointer;
+  transition:box-shadow 0.15s,transform 0.15s;
+}
+.gallery-card:hover{box-shadow:0 4px 20px rgba(15,30,45,0.12);transform:translateY(-2px)}
+.gc-top{
+  background:var(--navy-mid);padding:1rem 1.2rem;
+  display:flex;align-items:center;gap:0.75rem;
+}
+.gc-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--teal);display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:800;color:var(--navy);flex-shrink:0;
+}
+.gc-name{font-size:0.95rem;font-weight:700;color:var(--white)}
+.gc-role{font-size:0.73rem;color:var(--teal);font-weight:600;margin-top:2px}
+.gc-body{padding:0.9rem 1.2rem}
+.gc-power{font-size:0.83rem;color:var(--text);font-style:italic;line-height:1.5;margin-bottom:0.7rem}
+.gc-skills{display:flex;flex-wrap:wrap;gap:0.35rem}
+.gc-skill-tag{
+  font-size:0.72rem;font-weight:600;padding:2px 8px;border-radius:12px;
+  background:var(--teal-soft);color:var(--teal-dim);
+}
+
+/* Mission screen */
+.missions-wrap{display:flex;flex-direction:column;gap:1.25rem;margin-bottom:1.5rem}
+.mission-item{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;padding:1.2rem 1.4rem;
+  display:flex;gap:1rem;align-items:flex-start;
+}
+.mission-num{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--teal);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.9rem;flex-shrink:0;
+}
+.mission-content h3{font-size:0.97rem;font-weight:700;color:var(--navy-mid);margin-bottom:0.3rem}
+.mission-content p{font-size:0.87rem;color:var(--muted);line-height:1.55}
+.mission-content .target{
+  display:inline-block;margin-top:0.5rem;font-size:0.78rem;font-weight:700;
+  color:var(--teal-dim);background:var(--teal-soft);
+  padding:2px 9px;border-radius:12px;
+}
+
+/* ── Buttons ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:0.7rem 1.5rem;border-radius:8px;font-family:var(--font);
+  font-size:0.9rem;font-weight:700;cursor:pointer;border:none;
+  transition:background 0.15s,transform 0.1s;
+}
+.btn:active{transform:scale(0.98)}
+.btn-primary{background:var(--teal);color:var(--navy)}
+.btn-primary:hover{background:var(--teal-dim)}
+.btn-outline{background:#fff;color:var(--navy-mid);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal-dim)}
+.btn-dark{background:var(--navy-mid);color:#fff}
+.btn-dark:hover{background:var(--navy)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:#ffb300}
+
+.btn-row{display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem}
+
+/* ── Toast ── */
+.toast{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--navy-mid);color:#fff;
+  padding:0.7rem 1.4rem;border-radius:8px;
+  font-size:0.88rem;font-weight:600;
+  transition:transform 0.3s ease;
+  z-index:100;
+  white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ── Teacher panel ── */
+.teacher-panel{
+  background:var(--navy);color:#fff;
+  border-radius:12px;padding:1.25rem 1.4rem;margin-bottom:1.25rem;
+}
+.teacher-panel h3{
+  font-size:0.78rem;font-weight:700;letter-spacing:0.8px;
+  color:var(--teal);text-transform:uppercase;margin-bottom:0.75rem;
+}
+.teacher-panel p{font-size:0.86rem;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:0.5rem}
+.teacher-panel p:last-child{margin-bottom:0}
+
+/* ── Vocab panel ── */
+.vocab-toggle{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:0.85rem 1.2rem;background:var(--navy-mid);color:#fff;
+  border:none;border-radius:10px;cursor:pointer;font-family:var(--font);
+  font-size:0.88rem;font-weight:700;margin-bottom:1rem;
+  transition:background 0.15s;
+}
+.vocab-toggle:hover{background:var(--navy)}
+.vocab-toggle .vt-arrow{font-size:0.8rem;transition:transform 0.2s}
+.vocab-toggle.open .vt-arrow{transform:rotate(180deg)}
+.vocab-panel{
+  display:none;background:var(--card-bg);border:1px solid var(--border);
+  border-radius:10px;padding:1.4rem 1.5rem;margin-bottom:1rem;
+}
+.vocab-panel.open{display:block}
+.vocab-sections{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem}
+.vocab-section h4{
+  font-size:0.7rem;font-weight:700;letter-spacing:0.8px;
+  text-transform:uppercase;color:var(--teal-dim);
+  margin-bottom:0.65rem;padding-bottom:0.4rem;
+  border-bottom:2px solid var(--teal-soft);
+}
+.vocab-section ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:0.35rem}
+.vocab-section li{font-size:0.84rem;color:var(--text);line-height:1.45;display:flex;gap:0.4rem}
+.vocab-section li .vw{font-weight:700;color:var(--navy-mid);min-width:0}
+.vocab-section li .vd{color:var(--muted);font-style:italic}
+.vocab-note{
+  margin-top:1rem;padding:0.7rem 1rem;
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  border-radius:0 6px 6px 0;font-size:0.82rem;color:#5a3e00;
+}
+
+/* ── Guided intro steps (gallery screen) ── */
+.intro-guide{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;margin-bottom:1.25rem;
+}
+.intro-guide-header{
+  background:var(--navy-mid);padding:0.9rem 1.3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;
+}
+.intro-guide-header h3{font-size:0.88rem;font-weight:700;color:#fff}
+.intro-guide-header span{font-size:0.78rem;color:var(--teal);font-weight:600}
+.intro-guide-body{padding:1.2rem 1.4rem;display:none}
+.intro-guide-body.open{display:block}
+
+.intro-steps{display:flex;flex-direction:column;gap:0}
+.intro-step{
+  display:flex;gap:0.9rem;padding:0.85rem 0;
+  border-bottom:1px solid var(--border);
+}
+.intro-step:last-child{border-bottom:none}
+.is-num{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--teal);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.82rem;flex-shrink:0;margin-top:2px;
+}
+.is-body{}
+.is-body .is-label{font-size:0.72rem;font-weight:700;letter-spacing:0.6px;color:var(--muted);text-transform:uppercase;margin-bottom:0.3rem}
+.is-body .is-model{
+  font-size:0.9rem;color:var(--navy-mid);line-height:1.6;font-weight:500;
+}
+.is-body .is-model .fill{
+  display:inline-block;
+  background:var(--teal-soft);color:var(--teal-dim);
+  border-bottom:2px solid var(--teal);
+  padding:0 4px;border-radius:3px;font-style:italic;font-weight:700;
+}
+.is-body .is-alt{font-size:0.8rem;color:var(--muted);margin-top:0.4rem;line-height:1.5}
+.is-body .is-alt strong{color:var(--text)}
+
+/* ── Pitch builder (missions screen) ── */
+.pitch-builder{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;margin-bottom:1.5rem;
+}
+.pb-header{
+  background:var(--navy);padding:1rem 1.4rem;
+  display:flex;align-items:center;justify-content:space-between;cursor:pointer;
+}
+.pb-header h3{font-size:0.92rem;font-weight:700;color:#fff}
+.pb-header .pb-tag{
+  font-size:0.72rem;font-weight:700;color:var(--teal);
+  background:rgba(0,188,212,0.15);padding:3px 9px;border-radius:12px;
+}
+.pb-body{padding:1.3rem 1.5rem;display:none}
+.pb-body.open{display:block}
+
+.pb-steps{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.25rem}
+.pb-step{
+  display:flex;gap:0.85rem;align-items:flex-start;
+  background:var(--off);border-radius:9px;padding:0.85rem 1rem;
+  border-left:3px solid var(--teal);
+}
+.pb-step-num{
+  min-width:28px;height:28px;border-radius:50%;
+  background:var(--teal);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.8rem;flex-shrink:0;
+}
+.pb-step-content{}
+.pb-step-content .pbs-time{
+  font-size:0.68rem;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.25rem;
+}
+.pb-step-content .pbs-label{font-size:0.88rem;font-weight:700;color:var(--navy-mid);margin-bottom:0.3rem}
+.pb-step-content .pbs-model{
+  font-size:0.84rem;color:var(--text);line-height:1.6;
+  background:#fff;border:1px solid var(--border);border-radius:6px;
+  padding:0.55rem 0.8rem;margin-top:0.35rem;
+}
+.pb-step-content .pbs-model .pf{
+  color:var(--teal-dim);font-weight:700;font-style:italic;
+  background:var(--teal-soft);padding:0 3px;border-radius:3px;
+}
+.pb-step-content .pbs-alts{font-size:0.78rem;color:var(--muted);margin-top:0.4rem;line-height:1.5}
+
+.pb-tips{
+  display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;
+}
+@media(max-width:500px){.pb-tips{grid-template-columns:1fr}}
+.pb-tip{
+  background:var(--gold-soft);border:1px solid #ffe082;
+  border-radius:8px;padding:0.75rem 0.9rem;
+}
+.pb-tip .pt-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#f57f17;margin-bottom:0.35rem}
+.pb-tip p{font-size:0.82rem;color:#4a3000;line-height:1.5}
+
+/* ── Responsive ── */
+@media(max-width:540px){
+  .intro-hero h1{font-size:1.5rem}
+  .form-card{padding:1.25rem}
+  .card-skills-grid{grid-template-columns:1fr 1fr}
+}
+
+</style>
+</head>
+<body>
+
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="logo">
+    <div class="logo-mark">GS</div>
+    <div>
+      <div class="logo-name">GlobalSpark Agency</div>
+      <div class="logo-tag">Agency Casting · Day One</div>
+    </div>
+  </div>
+  <div class="step-indicators" id="stepDots">
+    <div class="step-dot active"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+  </div>
+</div>
+
+<div class="app">
+
+<!-- ══════════════ SCREEN 0 · INTRO ══════════════ -->
+<div class="screen active" id="screen0">
+
+  <div class="intro-hero">
+    <div class="eyebrow">GlobalSpark International Marketing Agency · Madrid</div>
+    <h1>Welcome to<br><span>the team.</span></h1>
+    <p>You have been selected to join GlobalSpark — one of Madrid's most ambitious new marketing agencies. Before we assign you to your first account, we need to know who you are. Complete your Talent Card. The team is waiting.</p>
+  </div>
+
+  <div class="mission-cards">
+    <div class="mission-card">
+      <div class="mc-step">Step 1</div>
+      <div class="mc-title">Build your Talent Card</div>
+      <p>Fill in your profile: your role, your skills, your superpower. In English — you're working with international clients.</p>
+    </div>
+    <div class="mission-card">
+      <div class="mc-step">Step 2</div>
+      <div class="mc-title">Find your team</div>
+      <p>Browse the agency directory. Find two colleagues whose skills complement yours and introduce yourself — in English.</p>
+    </div>
+    <div class="mission-card">
+      <div class="mc-step">Step 3</div>
+      <div class="mc-title">Agency missions</div>
+      <p>Your first client brief is waiting. Work with your new team to pitch your first idea. You have 5 minutes.</p>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="goTo(1)">Start — Build my Talent Card →</button>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN 1 · FORM ══════════════ -->
+<div class="screen" id="screen1">
+
+  <div class="form-header">
+    <h2>Your Talent Card</h2>
+    <p>This is how the rest of the agency will know you. Be honest — and be specific.</p>
+  </div>
+
+  <!-- VOCABULARY PANEL -->
+  <button class="vocab-toggle" id="vocabToggle" onclick="toggleVocab()">
+    📖 Useful vocabulary — open before you start <span class="vt-arrow">▼</span>
+  </button>
+  <div class="vocab-panel" id="vocabPanel">
+    <div class="vocab-sections">
+      <div class="vocab-section">
+        <h4>Describing yourself</h4>
+        <ul>
+          <li><span class="vw">creative</span><span class="vd">— imaginativo/a</span></li>
+          <li><span class="vw">organised</span><span class="vd">— organizado/a</span></li>
+          <li><span class="vw">analytical</span><span class="vd">— analítico/a</span></li>
+          <li><span class="vw">ambitious</span><span class="vd">— ambicioso/a</span></li>
+          <li><span class="vw">detail-oriented</span><span class="vd">— meticuloso/a</span></li>
+          <li><span class="vw">a team player</span><span class="vd">— trabajo bien en equipo</span></li>
+          <li><span class="vw">self-motivated</span><span class="vd">— con iniciativa propia</span></li>
+          <li><span class="vw">adaptable</span><span class="vd">— flexible, versátil</span></li>
+        </ul>
+      </div>
+      <div class="vocab-section">
+        <h4>Skills &amp; strengths</h4>
+        <ul>
+          <li><span class="vw">I'm good at...</span><span class="vd">— se me da bien...</span></li>
+          <li><span class="vw">My strength is...</span><span class="vd">— mi punto fuerte es...</span></li>
+          <li><span class="vw">I have experience in...</span><span class="vd">— tengo experiencia en...</span></li>
+          <li><span class="vw">I'm learning to...</span><span class="vd">— estoy aprendiendo a...</span></li>
+          <li><span class="vw">I can...</span><span class="vd">— sé / puedo...</span></li>
+          <li><span class="vw">social media</span><span class="vd">— redes sociales</span></li>
+          <li><span class="vw">copywriting</span><span class="vd">— redacción publicitaria</span></li>
+          <li><span class="vw">data analysis</span><span class="vd">— análisis de datos</span></li>
+        </ul>
+      </div>
+      <div class="vocab-section">
+        <h4>Goals &amp; ambitions</h4>
+        <ul>
+          <li><span class="vw">I want to learn...</span><span class="vd">— quiero aprender...</span></li>
+          <li><span class="vw">My goal is to...</span><span class="vd">— mi objetivo es...</span></li>
+          <li><span class="vw">I'd like to improve...</span><span class="vd">— quiero mejorar...</span></li>
+          <li><span class="vw">I'm interested in...</span><span class="vd">— me interesa...</span></li>
+          <li><span class="vw">I hope to...</span><span class="vd">— espero / tengo la intención de...</span></li>
+          <li><span class="vw">by the end of the year</span><span class="vd">— para final de curso</span></li>
+          <li><span class="vw">work on real campaigns</span><span class="vd">— trabajar en campañas reales</span></li>
+        </ul>
+      </div>
+      <div class="vocab-section">
+        <h4>Superpower — useful phrases</h4>
+        <ul>
+          <li><span class="vw">I always...</span><span class="vd">— siempre...</span></li>
+          <li><span class="vw">I never...</span><span class="vd">— nunca...</span></li>
+          <li><span class="vw">I can spot...</span><span class="vd">— soy capaz de detectar...</span></li>
+          <li><span class="vw">People say I'm...</span><span class="vd">— la gente dice que soy...</span></li>
+          <li><span class="vw">Most people can't...</span><span class="vd">— la mayoría no puede...</span></li>
+          <li><span class="vw">I understand...</span><span class="vd">— entiendo / comprendo...</span></li>
+          <li><span class="vw">instinctively</span><span class="vd">— instintivamente</span></li>
+          <li><span class="vw">naturally</span><span class="vd">— con naturalidad, fácilmente</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="vocab-note">
+      💡 <strong>Tip:</strong> Don't translate word by word. Write a simple sentence you understand completely. Short and true is better than long and confusing.
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="form-section-label">Who are you</div>
+    <div class="field-grid">
+      <div class="field">
+        <label>First name <span class="req">*</span></label>
+        <input type="text" id="fname" placeholder="e.g. Sofía" maxlength="30">
+      </div>
+      <div class="field">
+        <label>Where are you from?</label>
+        <input type="text" id="origin" placeholder="e.g. Alcalá de Henares" maxlength="40">
+      </div>
+    </div>
+    <div class="field-grid">
+      <div class="field">
+        <label>One word that describes you</label>
+        <input type="text" id="oneword" placeholder="e.g. creative, curious, calm..." maxlength="20">
+      </div>
+      <div class="field">
+        <label>Your English level (self-assessment)</label>
+        <select id="level">
+          <option value="">— select —</option>
+          <option value="A2">A2 — I can survive</option>
+          <option value="B1">B1 — I can communicate</option>
+          <option value="B1+">B1+ — I'm comfortable</option>
+          <option value="B2">B2 — I'm confident</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="form-section-label">Your role at GlobalSpark</div>
+    <p style="font-size:0.86rem;color:var(--muted);margin-bottom:1rem">Choose the role that fits you best. You can only pick one — choose wisely.</p>
+    <div class="role-chips" id="roleChips">
+      <label class="role-chip" onclick="selectRole(this)">
+        <input type="radio" name="role" value="Creative">
+        <span class="chip-icon">🎨</span> Creative
+      </label>
+      <label class="role-chip" onclick="selectRole(this)">
+        <input type="radio" name="role" value="Strategist">
+        <span class="chip-icon">🧠</span> Strategist
+      </label>
+      <label class="role-chip" onclick="selectRole(this)">
+        <input type="radio" name="role" value="Digital">
+        <span class="chip-icon">📱</span> Digital
+      </label>
+      <label class="role-chip" onclick="selectRole(this)">
+        <input type="radio" name="role" value="Copywriter">
+        <span class="chip-icon">✍️</span> Copywriter
+      </label>
+      <label class="role-chip" onclick="selectRole(this)">
+        <input type="radio" name="role" value="Account Manager">
+        <span class="chip-icon">🤝</span> Account Manager
+      </label>
+      <label class="role-chip" onclick="selectRole(this)">
+        <input type="radio" name="role" value="Data Analyst">
+        <span class="chip-icon">📊</span> Data Analyst
+      </label>
+      <label class="role-chip" onclick="selectRole(this)">
+        <input type="radio" name="role" value="Art Director">
+        <span class="chip-icon">🖼️</span> Art Director
+      </label>
+      <label class="role-chip" onclick="selectRole(this)">
+        <input type="radio" name="role" value="Brand Manager">
+        <span class="chip-icon">⭐</span> Brand Manager
+      </label>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="form-section-label">Your skill levels</div>
+    <p style="font-size:0.86rem;color:var(--muted);margin-bottom:1rem">Drag each slider. Be honest — GlobalSpark needs real strengths, not imaginary ones.</p>
+    <div class="skill-rows" id="skillRows">
+      <!-- Generated by JS -->
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="form-section-label">What makes you different</div>
+    <div class="field-grid full">
+      <div class="field">
+        <label>Your superpower <span class="req">*</span></label>
+        <div class="power-wrap">
+          <textarea id="superpower" placeholder="What can you do that most people can't? Be specific and in English." maxlength="120" rows="3" oninput="countChars()"></textarea>
+          <span class="char-count" id="charCount">0 / 120</span>
+        </div>
+        <span class="hint">e.g. "I can spot a bad logo from 100 metres" · "I always know what teenagers actually want" · "I speak three languages and understand three markets"</span>
+      </div>
+    </div>
+    <div class="field-grid full" style="margin-top:1rem">
+      <div class="field">
+        <label>Your ambition at GlobalSpark</label>
+        <input type="text" id="ambition" placeholder="What do you want to learn or create this year?" maxlength="80">
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="goTo(0)">← Back</button>
+    <button class="btn btn-primary" onclick="previewCard()">Preview my card →</button>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN 2 · PREVIEW ══════════════ -->
+<div class="screen" id="screen2">
+  <div class="form-header">
+    <h2>Your Talent Card</h2>
+    <p>This is what your colleagues will see. Happy with it?</p>
+  </div>
+
+  <div class="preview-wrap">
+    <div class="agency-card" id="previewCard">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="goTo(1)">← Edit</button>
+    <button class="btn btn-primary" onclick="submitCard()">Submit to the agency →</button>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN 3 · GALLERY ══════════════ -->
+<div class="screen" id="screen3">
+  <div class="gallery-header">
+    <h2>The GlobalSpark Team</h2>
+    <p>Browse your colleagues. Find two people whose skills complement yours. Introduce yourself in English.</p>
+  </div>
+
+  <!-- GUIDED INTRO STEPS -->
+  <div class="intro-guide">
+    <div class="intro-guide-header" onclick="toggleIntroGuide()">
+      <h3>💬 How to introduce yourself — step by step guide</h3>
+      <span id="guideToggleLabel">Tap to open ▼</span>
+    </div>
+    <div class="intro-guide-body" id="introGuideBody">
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem">Find a colleague with a skill you don't have. Use these steps. You don't need to memorise them — just follow them in order.</p>
+      <div class="intro-steps">
+        <div class="intro-step">
+          <div class="is-num">1</div>
+          <div class="is-body">
+            <div class="is-label">Greet and introduce yourself</div>
+            <div class="is-model">"Hi! I'm <span class="fill">your name</span>. I'm the <span class="fill">your role</span> here at GlobalSpark."</div>
+            <div class="is-alt"><strong>Also useful:</strong> "Nice to meet you." · "Good morning!" · "Hey, I don't think we've met yet."</div>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="is-num">2</div>
+          <div class="is-body">
+            <div class="is-label">Say where you're from</div>
+            <div class="is-model">"I'm from <span class="fill">your city</span>. What about you?"</div>
+            <div class="is-alt"><strong>Also useful:</strong> "I grew up in..." · "I'm originally from... but I live in..."</div>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="is-num">3</div>
+          <div class="is-body">
+            <div class="is-label">Share your superpower</div>
+            <div class="is-model">"My superpower is <span class="fill">your superpower</span>. That's why I joined as a <span class="fill">your role</span>."</div>
+            <div class="is-alt"><strong>Also useful:</strong> "I'm especially good at..." · "People always tell me I'm good at..." · "I can..."</div>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="is-num">4</div>
+          <div class="is-body">
+            <div class="is-label">Show interest in their skills</div>
+            <div class="is-model">"I saw your card — your <span class="fill">their skill</span> skills are really strong. I think we could work well together because <span class="fill">give a reason</span>."</div>
+            <div class="is-alt"><strong>Also useful:</strong> "That's impressive!" · "I'd love to learn more about that." · "I don't have that skill — I need someone like you!"</div>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="is-num">5</div>
+          <div class="is-body">
+            <div class="is-label">Ask about their ambition</div>
+            <div class="is-model">"What's your ambition at GlobalSpark this year?"</div>
+            <div class="is-alt"><strong>Also useful:</strong> "What do you want to get out of this course?" · "What kind of campaigns do you want to work on?" · "What are you most excited about?"</div>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="is-num">6</div>
+          <div class="is-body">
+            <div class="is-label">Close the conversation</div>
+            <div class="is-model">"Great to meet you, <span class="fill">their name</span>. Let's work together on the mission."</div>
+            <div class="is-alt"><strong>Also useful:</strong> "See you around!" · "I'll find you when we form teams." · "I think we'd make a good team."</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;padding:0.8rem 1rem;background:var(--teal-soft);border-radius:8px;font-size:0.84rem;color:var(--teal-dim)">
+        <strong>Remember:</strong> Don't worry about perfect grammar. Use the phrases above and focus on communicating. If you don't know a word, describe it in English — that's what professional communicators do.
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-controls" id="filterBtns">
+    <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
+    <button class="filter-btn" onclick="filterGallery('Creative',this)">🎨 Creative</button>
+    <button class="filter-btn" onclick="filterGallery('Strategist',this)">🧠 Strategist</button>
+    <button class="filter-btn" onclick="filterGallery('Digital',this)">📱 Digital</button>
+    <button class="filter-btn" onclick="filterGallery('Copywriter',this)">✍️ Copywriter</button>
+    <button class="filter-btn" onclick="filterGallery('Account Manager',this)">🤝 Account</button>
+    <button class="filter-btn" onclick="filterGallery('Data Analyst',this)">📊 Data</button>
+    <button class="filter-btn" onclick="filterGallery('Art Director',this)">🖼️ Art Dir.</button>
+    <button class="filter-btn" onclick="filterGallery('Brand Manager',this)">⭐ Brand</button>
+  </div>
+
+  <div class="gallery-grid" id="galleryGrid">
+    <!-- Cards populated by JS -->
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-gold" onclick="goTo(4)">Go to Agency Missions →</button>
+    <button class="btn btn-outline" onclick="addDemoCards()">+ Add demo cards</button>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN 4 · MISSIONS ══════════════ -->
+<div class="screen" id="screen4">
+  <div class="gallery-header">
+    <h2>Agency Missions</h2>
+    <p>Your first client briefs. Work with your team. You have 5 minutes. Then pitch in 60 seconds.</p>
+  </div>
+
+  <!-- PITCH BUILDER -->
+  <div class="pitch-builder">
+    <div class="pb-header" onclick="togglePitchBuilder()">
+      <h3>🎤 How to build your 60-second pitch — guided structure</h3>
+      <span class="pb-tag" id="pbToggleLabel">Tap to open ▼</span>
+    </div>
+    <div class="pb-body" id="pitchBuilderBody">
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.1rem">Your team has 5 minutes to prepare. Use this structure. Each person can take one or two steps. You don't need slides — just speak clearly.</p>
+
+      <div class="pb-steps">
+        <div class="pb-step">
+          <div class="pb-step-num">1</div>
+          <div class="pb-step-content">
+            <div class="pbs-time">⏱ 10 seconds</div>
+            <div class="pbs-label">Hook — grab attention immediately</div>
+            <div class="pbs-model">"Every day, <span class="pf">[surprising fact or number]</span>. That's the world our client is entering."</div>
+            <div class="pbs-alts"><strong>Other options:</strong> Start with a question — "How many of you bought something because of an Instagram post?" · Start with a problem — "The problem is nobody knows this brand exists. Yet."</div>
+          </div>
+        </div>
+        <div class="pb-step">
+          <div class="pb-step-num">2</div>
+          <div class="pb-step-content">
+            <div class="pbs-time">⏱ 10 seconds</div>
+            <div class="pbs-label">Client &amp; challenge</div>
+            <div class="pbs-model">"Our client is <span class="pf">[client name]</span>. They <span class="pf">[one sentence about what they do]</span>. The challenge: <span class="pf">[the problem to solve]</span>."</div>
+            <div class="pbs-alts"><strong>Useful words:</strong> target audience · brand awareness · online presence · market · competitors</div>
+          </div>
+        </div>
+        <div class="pb-step">
+          <div class="pb-step-num">3</div>
+          <div class="pb-step-content">
+            <div class="pbs-time">⏱ 20 seconds</div>
+            <div class="pbs-label">Our idea — the campaign concept</div>
+            <div class="pbs-model">"Our campaign is called <span class="pf">[campaign name]</span>. The tagline is: <span class="pf">[tagline — 6 words or fewer]</span>. The idea is <span class="pf">[explain in 2 sentences]</span>."</div>
+            <div class="pbs-alts"><strong>Useful words:</strong> campaign · concept · visual · message · content · launch · platform · hashtag · viral · engagement</div>
+          </div>
+        </div>
+        <div class="pb-step">
+          <div class="pb-step-num">4</div>
+          <div class="pb-step-content">
+            <div class="pbs-time">⏱ 10 seconds</div>
+            <div class="pbs-label">Why it will work</div>
+            <div class="pbs-model">"This works because <span class="pf">[reason — connect to the target audience]</span>. Our target audience is <span class="pf">[who]</span> and they <span class="pf">[what they care about]</span>."</div>
+            <div class="pbs-alts"><strong>Useful words:</strong> resonate with · connect with · appeal to · relevant to · authentic · trust · values · lifestyle</div>
+          </div>
+        </div>
+        <div class="pb-step">
+          <div class="pb-step-num">5</div>
+          <div class="pb-step-content">
+            <div class="pbs-time">⏱ 10 seconds</div>
+            <div class="pbs-label">Call to action — close strong</div>
+            <div class="pbs-model">"We are GlobalSpark. We make brands <span class="pf">[one powerful word]</span>. Give us this brief — we'll make it happen."</div>
+            <div class="pbs-alts"><strong>Other closings:</strong> "Thank you — any questions?" · "We're ready to start tomorrow." · "This campaign will put [client] on the map."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pb-tips">
+        <div class="pb-tip">
+          <div class="pt-label">🗣 Delivery tips</div>
+          <p>Speak slowly — especially in English. Look at your audience, not at your notes. One person speaks at a time. Practice once before you pitch.</p>
+        </div>
+        <div class="pb-tip">
+          <div class="pt-label">⚠️ Common mistakes</div>
+          <p>Don't read from your phone. Don't say "ummm" — pause instead. Don't apologise for your English. Don't go over 60 seconds.</p>
+        </div>
+        <div class="pb-tip">
+          <div class="pt-label">📝 Prepare in 5 minutes</div>
+          <p>1. Read the brief together (1 min). 2. Agree on the idea (2 min). 3. Assign each person a step from the structure above (1 min). 4. Quick run-through (1 min). Done.</p>
+        </div>
+        <div class="pb-tip">
+          <div class="pt-label">✅ What makes a great pitch</div>
+          <p>A clear idea · a memorable tagline · a specific target audience · at least one concrete detail (a number, a platform, an image). Confidence beats perfection.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="missions-wrap">
+    <div class="mission-item">
+      <div class="mission-num">A</div>
+      <div class="mission-content">
+        <h3>The GreenLife Brief</h3>
+        <p>GreenLife Organics makes sustainable plant-based snacks. They want to launch on Instagram and TikTok for the first time. They have a budget of €5,000. Their target audience is 18–30 year-olds in Spanish cities who care about the environment but also want food that tastes good.</p>
+        <p><strong>Your task:</strong> Come up with a campaign name, a tagline (under 6 words), and ONE specific idea for their first piece of content. What would you post? What would it look like?</p>
+        <span class="target">🎯 Pitch to the class in 60 seconds</span>
+      </div>
+    </div>
+
+    <div class="mission-item">
+      <div class="mission-num">B</div>
+      <div class="mission-content">
+        <h3>The Crisis Brief</h3>
+        <p>A Spanish fashion brand has just accidentally posted an offensive meme on their official Instagram account. It has 4,500 likes and 800 angry comments. The CEO is panicking. It is 9am on a Monday.</p>
+        <p><strong>Your task:</strong> What do you do in the next 60 minutes? Give three specific actions in order of priority. Decide who does what. Draft the first sentence of the public apology post in English.</p>
+        <span class="target">🎯 Pitch to the class in 60 seconds</span>
+      </div>
+    </div>
+
+    <div class="mission-item">
+      <div class="mission-num">C</div>
+      <div class="mission-content">
+        <h3>The New Client Brief</h3>
+        <p>A traditional Spanish olive oil producer from Jaén — La Tienda del Campo — wants to sell to UK supermarkets for the first time. They have never done marketing in English. They don't know what makes them different from any other olive oil.</p>
+        <p><strong>Your task:</strong> Find ONE thing that makes them special (you can invent it). Create a name for their UK product line, a tagline in English, and describe the image for their packaging. What would you put on the label?</p>
+        <span class="target">🎯 Pitch to the class in 60 seconds</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="goTo(3)">← Back to team</button>
+    <button class="btn btn-dark" onclick="resetAll()">↺ Start over (new class)</button>
+  </div>
+</div>
+
+</div><!-- end .app -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+<script>
+// ── Cross-device sync via JSONBin.io ─────────────────────────────────────────
+// Setup (one-time, before first class):
+//   1. Go to https://jsonbin.io → Sign up free (email only)
+//   2. Go to API Keys → copy your Master Key
+//   3. Create a new Bin with content: {"cards":[]}
+//   4. Copy the Bin ID from the URL
+//   5. Paste both values below
+
+const JSONBIN_KEY = "PASTE_YOUR_MASTER_KEY_HERE";
+const JSONBIN_BIN = "PASTE_YOUR_BIN_ID_HERE";
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN}`;
+
+const IS_CONFIGURED = JSONBIN_KEY !== "PASTE_YOUR_MASTER_KEY_HERE" && JSONBIN_BIN !== "PASTE_YOUR_BIN_ID_HERE";
+
+// ── Read all cards ─────────────────────────────────────────────────────────
+async function loadCards() {
+  if (!IS_CONFIGURED) return _localLoad();
+  try {
+    const res = await fetch(JSONBIN_URL + "/latest", {
+      headers: { "X-Master-Key": JSONBIN_KEY }
+    });
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    return data.record?.cards || [];
+  } catch(e) {
+    console.warn("JSONBin read failed, using local:", e);
+    return _localLoad();
+  }
+}
+
+// ── Save a card ────────────────────────────────────────────────────────────
+async function saveCard(cardData) {
+  if (!IS_CONFIGURED) { _localSave(cardData); return true; }
+  try {
+    // Read current, add card, write back
+    const current = await loadCards();
+    const updated = current.filter(c => c.id !== cardData.id);
+    updated.push(cardData);
+    const res = await fetch(JSONBIN_URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": JSONBIN_KEY
+      },
+      body: JSON.stringify({ cards: updated })
+    });
+    if (!res.ok) throw new Error(res.status);
+    _localSave(cardData); // mirror locally as backup
+    return true;
+  } catch(e) {
+    console.warn("JSONBin write failed, saved locally only:", e);
+    _localSave(cardData);
+    return false;
+  }
+}
+
+// ── Delete all cards ───────────────────────────────────────────────────────
+async function deleteAllCards() {
+  if (!IS_CONFIGURED) { localStorage.removeItem("gs_cards_local"); return; }
+  try {
+    await fetch(JSONBIN_URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": JSONBIN_KEY
+      },
+      body: JSON.stringify({ cards: [] })
+    });
+    localStorage.removeItem("gs_cards_local");
+  } catch(e) { console.warn("Clear failed:", e); }
+}
+
+// ── No-API listener (teacher tab polls instead) ────────────────────────────
+function listenForCards(callback) {
+  // JSONBin has no websocket — teacher polls via setInterval
+  // This is a no-op; polling is handled directly in teacher JS
+  return null;
+}
+
+// ── Local fallback (same-device testing) ──────────────────────────────────
+function _localSave(card) {
+  try {
+    const key = "gs_cards_local";
+    let cards = _localLoad();
+    cards = cards.filter(c => c.id !== card.id);
+    cards.push(card);
+    localStorage.setItem(key, JSON.stringify(cards));
+  } catch(e) {}
+}
+function _localLoad() {
+  try {
+    const raw = localStorage.getItem("gs_cards_local");
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) { return []; }
+}
+
+
+// ── State ──────────────────────────────────────────────────────────────────
+const SKILLS = [
+  { name:"Social media",  key:"social"  },
+  { name:"Copywriting",   key:"copy"    },
+  { name:"Design",        key:"design"  },
+  { name:"Data / analytics", key:"data" },
+  { name:"Video / photo", key:"video"   },
+  { name:"Strategy",      key:"strategy"},
+];
+const SKILL_LABELS = ["Beginner","Developing","Comfortable","Strong","Expert"];
+let cards = [];
+let currentFilter = "all";
+
+// ── Init skill sliders ─────────────────────────────────────────────────────
+function initSliders() {
+  const wrap = document.getElementById("skillRows");
+  wrap.innerHTML = "";
+  SKILLS.forEach(s => {
+    const row = document.createElement("div");
+    row.className = "skill-row";
+    row.innerHTML = `
+      <span class="skill-name">${s.name}</span>
+      <input type="range" class="skill-slider" id="skill_${s.key}"
+        min="0" max="4" value="2"
+        oninput="updateSlider(this,'lbl_${s.key}')">
+      <span class="skill-level" id="lbl_${s.key}">${SKILL_LABELS[2]}</span>`;
+    wrap.appendChild(row);
+  });
+  // Init gradient for all sliders
+  document.querySelectorAll(".skill-slider").forEach(sl => updateSlider(sl, sl.id.replace("skill_","lbl_")));
+}
+
+function updateSlider(el, lblId) {
+  const v = parseInt(el.value);
+  const pct = v / 4 * 100;
+  el.style.background = `linear-gradient(to right,var(--teal) 0%,var(--teal) ${pct}%,var(--border) ${pct}%,var(--border) 100%)`;
+  document.getElementById(lblId).textContent = SKILL_LABELS[v];
+}
+
+// ── Role chip select ───────────────────────────────────────────────────────
+function selectRole(el) {
+  document.querySelectorAll(".role-chip").forEach(c => c.classList.remove("selected"));
+  el.classList.add("selected");
+}
+
+// ── Char count ────────────────────────────────────────────────────────────
+function countChars() {
+  const ta = document.getElementById("superpower");
+  document.getElementById("charCount").textContent = `${ta.value.length} / 120`;
+}
+
+// ── Collect form data ─────────────────────────────────────────────────────
+function collectData() {
+  const skills = {};
+  SKILLS.forEach(s => {
+    skills[s.key] = parseInt(document.getElementById("skill_" + s.key)?.value || 2);
+  });
+  const roleEl = document.querySelector(".role-chip.selected input");
+  return {
+    fname:     document.getElementById("fname").value.trim() || "Anonymous",
+    origin:    document.getElementById("origin").value.trim(),
+    oneword:   document.getElementById("oneword").value.trim(),
+    level:     document.getElementById("level").value,
+    role:      roleEl ? roleEl.value : "Creative",
+    skills,
+    superpower: document.getElementById("superpower").value.trim(),
+    ambition:  document.getElementById("ambition").value.trim(),
+    id:        "GS-" + Math.floor(1000 + Math.random() * 9000),
+    ts:        Date.now(),
+  };
+}
+
+// ── Avatar initial ────────────────────────────────────────────────────────
+function getInitial(name) {
+  return (name || "?").charAt(0).toUpperCase();
+}
+
+// ── Build preview card HTML ───────────────────────────────────────────────
+function buildCardHTML(d) {
+  const topSkills = SKILLS
+    .map(s => ({name:s.name, v:d.skills[s.key]}))
+    .sort((a,b) => b.v - a.v)
+    .slice(0,3);
+
+  const skillBars = topSkills.map(s => `
+    <div class="card-skill">
+      <div class="cs-name">${s.name}</div>
+      <div class="cs-bar" style="width:${s.v/4*100}%"></div>
+    </div>`).join("");
+
+  const originLine = d.origin ? `<div class="card-origin">📍 ${d.origin}${d.level ? " &nbsp;·&nbsp; " + d.level : ""}</div>` : "";
+  const powerLine  = d.superpower ? `<div class="card-power"><div class="cp-label">⚡ Superpower</div><p>"${d.superpower}"</p></div>` : "";
+  const ambLine    = d.ambition ? `<div class="card-ambition"><strong>This year I want to:</strong> ${d.ambition}</div>` : "";
+
+  return `
+    <div class="card-top">
+      <div class="card-avatar">${getInitial(d.fname)}</div>
+      <div class="card-name-block">
+        <div class="card-name">${d.fname}${d.oneword ? ' <span style="font-weight:400;font-size:0.8rem;color:rgba(255,255,255,0.5)">· ${d.oneword}</span>' : ""}</div>
+        <div class="card-role">${d.role}</div>
+      </div>
+      <div class="card-id">${d.id}</div>
+    </div>
+    <div class="card-body">
+      ${originLine}
+      <div class="card-skills-grid">${skillBars}</div>
+      ${powerLine}
+      ${ambLine}
+    </div>
+    <div class="card-footer">
+      <span class="cf-tag">GlobalSpark · Class 2026-27</span>
+      <span class="cf-prompt">Ask me about my superpower 👋</span>
+    </div>`;
+}
+
+// ── Gallery card HTML ─────────────────────────────────────────────────────
+function buildGalleryCard(d) {
+  const topSkills = SKILLS
+    .map(s => ({name:s.name, v:d.skills[s.key]}))
+    .sort((a,b) => b.v - a.v)
+    .slice(0,4);
+
+  const div = document.createElement("div");
+  div.className = "gallery-card";
+  div.dataset.role = d.role;
+  div.innerHTML = `
+    <div class="gc-top">
+      <div class="gc-avatar">${getInitial(d.fname)}</div>
+      <div>
+        <div class="gc-name">${d.fname}${d.origin ? " · " + d.origin : ""}</div>
+        <div class="gc-role">${d.role}${d.level ? " · " + d.level : ""}</div>
+      </div>
+    </div>
+    <div class="gc-body">
+      ${d.superpower ? `<div class="gc-power">"${d.superpower}"</div>` : ""}
+      <div class="gc-skills">
+        ${topSkills.map(s => `<span class="gc-skill-tag">${s.name} ${SKILL_LABELS[s.v].slice(0,4)}.</span>`).join("")}
+      </div>
+    </div>`;
+  return div;
+}
+
+// ── Preview ───────────────────────────────────────────────────────────────
+function previewCard() {
+  const d = collectData();
+  if (!d.superpower) { showToast("⚡ Add your superpower first!"); return; }
+  document.getElementById("previewCard").innerHTML = buildCardHTML(d);
+  goTo(2);
+}
+
+// ── Submit ────────────────────────────────────────────────────────────────
+function submitCard() {
+  const d = collectData();
+  if (!d.superpower) { showToast("⚡ Add your superpower first!"); return; }
+  cards.push(d);
+  renderGallery();
+  saveCard(d)
+    .then(() => showToast("✅ Your card is live in the agency directory!"))
+    .catch(() => showToast("✅ Card saved (local mode)!"));
+  goTo(3);
+}
+
+// ── Gallery render ────────────────────────────────────────────────────────
+function renderGallery() {
+  const grid = document.getElementById("galleryGrid");
+  grid.innerHTML = "";
+  const filtered = currentFilter === "all"
+    ? cards
+    : cards.filter(c => c.role === currentFilter);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<p style="color:var(--muted);font-size:0.9rem;grid-column:1/-1;padding:1rem 0">No cards yet. Be the first to submit yours!</p>`;
+    return;
+  }
+  filtered.forEach(d => grid.appendChild(buildGalleryCard(d)));
+}
+
+function filterGallery(role, btn) {
+  currentFilter = role;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  renderGallery();
+}
+
+// ── Demo cards ────────────────────────────────────────────────────────────
+const DEMOS = [
+  {fname:"Carlos",origin:"Vallecas, Madrid",oneword:"analytical",level:"B1+",role:"Data Analyst",
+   skills:{social:3,copy:2,design:1,data:4,video:2,strategy:3},
+   superpower:"I can find a story in any spreadsheet — even a boring one",
+   ambition:"Learn to present data in a way that clients actually understand",
+   id:"GS-4421",ts:Date.now()-1000},
+  {fname:"Lucía",origin:"Sevilla",oneword:"energetic",level:"B1",role:"Creative",
+   skills:{social:4,copy:3,design:4,data:1,video:3,strategy:2},
+   superpower:"I can sketch a campaign concept in 3 minutes flat",
+   ambition:"Direct my first video campaign before the end of the year",
+   id:"GS-7832",ts:Date.now()-900},
+  {fname:"Ahmed",origin:"Tetuán, Madrid",oneword:"precise",level:"B2",role:"Copywriter",
+   skills:{social:3,copy:4,design:2,data:2,video:1,strategy:3},
+   superpower:"I speak Arabic, Spanish and English — I understand three different ways of thinking",
+   ambition:"Write copy that actually makes people stop scrolling",
+   id:"GS-2219",ts:Date.now()-800},
+  {fname:"Marta",origin:"Valencia",oneword:"organised",level:"B1",role:"Account Manager",
+   skills:{social:2,copy:2,design:1,data:3,video:1,strategy:4},
+   superpower:"I always know what the client actually means, not just what they say",
+   ambition:"Run my first client meeting in English before Christmas",
+   id:"GS-5534",ts:Date.now()-700},
+  {fname:"Diego",origin:"Buenos Aires / Madrid",oneword:"bold",level:"B2",role:"Strategist",
+   skills:{social:3,copy:3,design:2,data:3,video:2,strategy:4},
+   superpower:"I can see the gap in a market before anyone else notices it exists",
+   ambition:"Build a campaign strategy that gets picked up by a real brand",
+   id:"GS-8841",ts:Date.now()-600},
+];
+
+function addDemoCards() {
+  DEMOS.forEach(d => {
+    if (!cards.find(c => c.id === d.id)) cards.push(d);
+  });
+  renderGallery();
+  showToast("🎉 Demo team added to the gallery");
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────
+function goTo(n) {
+  document.querySelectorAll(".screen").forEach((s,i) => {
+    s.classList.toggle("active", i === n);
+  });
+  const dots = document.querySelectorAll(".step-dot");
+  dots.forEach((d,i) => {
+    d.classList.toggle("active", i === n);
+    d.classList.toggle("done", i < n);
+  });
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2800);
+}
+
+// ── Reset ─────────────────────────────────────────────────────────────────
+function resetAll() {
+  if (confirm("Reset all cards? This will clear the gallery.")) {
+    cards = [];
+    renderGallery();
+    goTo(0);
+  }
+}
+
+// ── Vocab toggle ──────────────────────────────────────────────────────────
+function toggleVocab() {
+  const btn   = document.getElementById("vocabToggle");
+  const panel = document.getElementById("vocabPanel");
+  const open  = panel.classList.toggle("open");
+  btn.classList.toggle("open", open);
+  btn.querySelector(".vt-arrow").textContent = open ? "▲" : "▼";
+}
+
+// ── Intro guide toggle ────────────────────────────────────────────────────
+function toggleIntroGuide() {
+  const body  = document.getElementById("introGuideBody");
+  const label = document.getElementById("guideToggleLabel");
+  const open  = body.classList.toggle("open");
+  label.textContent = open ? "Tap to close ▲" : "Tap to open ▼";
+}
+
+// ── Pitch builder toggle ──────────────────────────────────────────────────
+function togglePitchBuilder() {
+  const body  = document.getElementById("pitchBuilderBody");
+  const label = document.getElementById("pbToggleLabel");
+  const open  = body.classList.toggle("open");
+  label.textContent = open ? "Tap to close ▲" : "Tap to open ▼";
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+initSliders();
+renderGallery();
+
+</script>
+</body>
+</html>
