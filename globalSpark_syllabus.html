@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalSpark · Your Course · Inglés Profesional 2026-27</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f1e2d;--navy-mid:#1b3a4b;
+  --teal:#00bcd4;--teal-dim:#0097a7;--teal-soft:#e0f7fa;
+  --gold:#ffc107;--gold-soft:#fff8e1;
+  --white:#fff;--off:#f0f4f6;--text:#1a2530;--muted:#607d8b;
+  --border:#cfd8dc;
+  --t1:#1a6496;--t1s:#e8f0fc;
+  --t2:#7a4ab0;--t2s:#f0eafc;
+  --proj:#0d7a5f;--projs:#d6f5ed;
+  --font:'Segoe UI',system-ui,sans-serif;
+}
+body{font-family:var(--font);background:var(--off);color:var(--text);min-height:100vh}
+
+/* ── Header ── */
+.site-header{background:var(--navy);padding:0;overflow:hidden}
+.header-inner{max-width:960px;margin:0 auto;padding:2.5rem 2rem 0;position:relative}
+.header-inner::after{
+  content:"";position:absolute;bottom:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--teal) 0%,var(--gold) 100%);
+}
+.header-eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);margin-bottom:0.5rem}
+.header-title{font-size:2.1rem;font-weight:900;color:#fff;line-height:1.1;margin-bottom:0.5rem}
+.header-title span{color:var(--teal)}
+.header-sub{font-size:0.9rem;color:rgba(255,255,255,0.55);margin-bottom:1.75rem;line-height:1.6}
+.header-meta{display:flex;flex-wrap:wrap;gap:1.25rem;padding-bottom:1.75rem}
+.hm-item{display:flex;align-items:center;gap:6px;font-size:0.82rem;color:rgba(255,255,255,0.6);font-weight:500}
+.hm-item strong{color:#fff}
+
+/* ── Page ── */
+.page{max-width:960px;margin:0 auto;padding:2.25rem 2rem 5rem}
+
+/* ── Intro card ── */
+.intro-card{
+  background:#fff;border:1px solid var(--border);border-radius:14px;
+  padding:1.5rem 1.75rem;margin-bottom:2rem;
+  border-left:5px solid var(--teal);
+}
+.intro-card h2{font-size:1.05rem;font-weight:800;color:var(--navy-mid);margin-bottom:0.65rem}
+.intro-card p{font-size:0.9rem;color:#455a64;line-height:1.7;margin-bottom:0.5rem}
+.intro-card p:last-child{margin-bottom:0}
+.intro-card .clients{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem}
+.client-tag{
+  font-size:0.78rem;font-weight:700;padding:4px 12px;border-radius:20px;
+  background:var(--teal-soft);color:var(--teal-dim);border:1px solid #b2ebf2;
+}
+
+/* ── Section label ── */
+.section-label{
+  font-size:0.68rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:8px;
+}
+.section-label::after{content:"";flex:1;height:1px;background:var(--border)}
+
+/* ── Term header ── */
+.term-header{
+  border-radius:10px;padding:0.85rem 1.25rem;
+  margin-bottom:1rem;margin-top:2rem;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;
+}
+.th-t1{background:var(--t1);color:#fff}
+.th-t2{background:var(--t2);color:#fff}
+.term-header h2{font-size:0.97rem;font-weight:800}
+.term-header .th-meta{font-size:0.78rem;opacity:0.75}
+
+/* ── Block card ── */
+.block-card{
+  background:#fff;border:1px solid var(--border);border-radius:14px;
+  margin-bottom:1rem;overflow:hidden;
+}
+.block-header{
+  padding:1.05rem 1.4rem;display:flex;align-items:flex-start;gap:1rem;cursor:pointer;
+  user-select:none;transition:background 0.12s;
+}
+.block-header:hover{background:#f8fafb}
+.block-num{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.88rem;color:#fff;
+}
+.b-t1{background:var(--t1)}.b-t2{background:var(--t2)}.b-proj{background:var(--proj)}
+.block-header-text{flex:1}
+.block-unit{font-size:0.68rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted);margin-bottom:0.2rem}
+.block-title{font-size:1.02rem;font-weight:800;color:var(--navy-mid);margin-bottom:0.2rem;line-height:1.2}
+.block-sa{font-size:0.82rem;font-style:italic;color:var(--teal-dim);margin-bottom:0.3rem}
+.block-chips{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.35rem}
+.block-chip{font-size:0.7rem;font-weight:600;padding:2px 8px;border-radius:12px}
+.bc-ra{background:#f0f4f6;color:var(--muted)}
+.bc-oral{background:var(--teal-soft);color:var(--teal-dim)}
+.bc-writing{background:#e8f5ec;color:#155c2a}
+.bc-eval{background:var(--gold-soft);color:#7a5000;border:1px solid #ffe082}
+.block-arrow{font-size:0.85rem;color:var(--muted);margin-top:4px;transition:transform 0.2s;flex-shrink:0}
+.block-arrow.open{transform:rotate(180deg)}
+
+.block-body{display:none;border-top:1px solid var(--border);padding:1.1rem 1.4rem 1.25rem}
+.block-body.open{display:block}
+
+.block-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0.85rem}
+@media(max-width:560px){.block-grid{grid-template-columns:1fr}}
+
+.bg-card{background:var(--off);border-radius:9px;padding:0.85rem 1rem}
+.bg-card h4{font-size:0.69rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.55rem;display:flex;align-items:center;gap:5px}
+.bg-oral h4{color:var(--teal-dim)}.bg-writing h4{color:#155c2a}
+.bg-card ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:0.3rem}
+.bg-card li{font-size:0.85rem;color:var(--text);display:flex;align-items:flex-start;gap:6px;line-height:1.45}
+.bg-card li::before{content:"›";color:var(--muted);font-weight:700;flex-shrink:0}
+
+.book-link{
+  background:var(--navy-mid);color:#fff;border-radius:8px;
+  padding:0.65rem 1rem;font-size:0.84rem;
+  display:flex;align-items:flex-start;gap:8px;line-height:1.5;
+}
+.book-link strong{color:var(--teal)}
+.book-link .bl-label{font-size:0.68rem;letter-spacing:0.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2px;font-weight:700}
+
+.sa-narrative{
+  margin-top:0.85rem;
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  border-radius:0 8px 8px 0;padding:0.7rem 1rem;
+  font-size:0.86rem;color:#4a3000;font-style:italic;line-height:1.55;
+}
+
+/* ── Project card ── */
+.project-card{
+  background:var(--proj);border-radius:14px;
+  padding:1.25rem 1.4rem;margin-bottom:1rem;
+  display:flex;gap:1rem;align-items:flex-start;
+}
+.proj-icon{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;flex-shrink:0;
+}
+.proj-content h3{font-size:1.02rem;font-weight:800;color:#fff;margin-bottom:0.25rem}
+.proj-content .pc-tag{
+  font-size:0.68rem;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;
+  color:rgba(255,255,255,0.55);margin-bottom:0.5rem;
+}
+.proj-content p{font-size:0.87rem;color:rgba(255,255,255,0.8);line-height:1.6}
+.proj-content .pc-chips{display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.6rem}
+.pc-chip{
+  font-size:0.73rem;font-weight:700;padding:2px 9px;border-radius:12px;
+  background:rgba(255,255,255,0.15);color:#fff;
+}
+
+/* ── RA legend ── */
+.ra-legend{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:0.65rem;
+  margin-bottom:2rem;
+}
+.ra-item{
+  background:#fff;border:1px solid var(--border);border-radius:9px;
+  padding:0.65rem 0.9rem;display:flex;align-items:center;gap:0.65rem;
+}
+.ra-badge{
+  width:34px;height:34px;border-radius:7px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.78rem;color:#fff;
+}
+.ra1{background:#1a6496}.ra2{background:#1a7a3a}.ra3{background:#c8960a}
+.ra4{background:#7a4ab0}.ra5{background:#c03060}
+.ra-text .rt-label{font-size:0.72rem;font-weight:700;color:var(--navy-mid)}
+.ra-text .rt-desc{font-size:0.76rem;color:var(--muted);line-height:1.35}
+
+/* ── Assessment card ── */
+.assess-card{
+  background:#fff;border:1px solid var(--border);border-radius:14px;
+  padding:1.25rem 1.5rem;margin-bottom:2rem;
+}
+.assess-card h2{font-size:1rem;font-weight:800;color:var(--navy-mid);margin-bottom:1rem}
+.assess-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.65rem}
+.assess-item{background:var(--off);border-radius:9px;padding:0.75rem 0.9rem;text-align:center}
+.assess-item .ai-pct{font-size:1.35rem;font-weight:900;color:var(--navy-mid)}
+.assess-item .ai-label{font-size:0.76rem;color:var(--muted);margin-top:2px;line-height:1.3}
+.assess-item .ai-badge{
+  display:inline-block;margin-top:0.4rem;font-size:0.68rem;font-weight:700;
+  padding:2px 7px;border-radius:10px;
+}
+
+/* ── Info box ── */
+.info-box{
+  background:#fff;border:1px solid var(--border);border-left:4px solid var(--teal);
+  border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.5rem;
+  font-size:0.87rem;color:#455a64;line-height:1.65;
+}
+.info-box strong{color:var(--navy-mid)}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="site-header">
+  <div class="header-inner">
+    <div class="header-eyebrow">Inglés Profesional · 1.º CFGS Marketing y Publicidad · IES Joan Miró · CM 2026-27</div>
+    <div class="header-title">Welcome to<br><span>GlobalSpark.</span></div>
+    <div class="header-sub">This is your course. This is your agency. This is how the year works.</div>
+    <div class="header-meta">
+      <div class="hm-item">📚 <strong>Textbook:</strong> English for Marketing and Publicity · Educalia</div>
+      <div class="hm-item">📅 <strong>Duration:</strong> 2 terms · Sept – March (FCT from April)</div>
+      <div class="hm-item">⏱ <strong>Hours:</strong> 2 hours per week · ~43 real hours</div>
+      <div class="hm-item">🌍 <strong>Level:</strong> B1 → B2</div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- INTRO -->
+  <div class="intro-card">
+    <h2>The story of the year</h2>
+    <p>You are not studying English. You are <strong>working in English</strong> — as part of a real international marketing agency. GlobalSpark is headquartered in Madrid and works with international clients. Every block of this course is a professional assignment for the agency.</p>
+    <p>You will write cover letters, pitch campaigns, manage client crises, go global, and deal with a very unhappy customer. By the end of the year, you will have produced real professional documents — in English — for real professional situations. The grammar and vocabulary come from the book. The context comes from the agency.</p>
+    <p style="margin-top:0.5rem;font-size:0.88rem;color:var(--muted)">Your permanent clients this year:</p>
+    <div class="clients">
+      <span class="client-tag">🌱 GreenLife Organics — sustainable food brand</span>
+      <span class="client-tag">🫒 La Tienda del Campo — traditional Spanish food producer</span>
+      <span class="client-tag">🛒 ShopNow.es — e-commerce client</span>
+    </div>
+  </div>
+
+  <!-- RA LEGEND -->
+  <div class="section-label">What you will learn — 5 learning outcomes (Resultados de Aprendizaje)</div>
+  <div class="ra-legend">
+    <div class="ra-item"><div class="ra-badge ra1">RA1</div><div class="ra-text"><div class="rt-label">Listening</div><div class="rt-desc">Understand spoken English in professional contexts</div></div></div>
+    <div class="ra-item"><div class="ra-badge ra2">RA2</div><div class="ra-text"><div class="rt-label">Reading</div><div class="rt-desc">Read and understand professional texts</div></div></div>
+    <div class="ra-item"><div class="ra-badge ra3">RA3</div><div class="ra-text"><div class="rt-label">Speaking</div><div class="rt-desc">Produce and interact orally in English</div></div></div>
+    <div class="ra-item"><div class="ra-badge ra4">RA4</div><div class="ra-text"><div class="rt-label">Writing</div><div class="rt-desc">Write professional documents in English</div></div></div>
+    <div class="ra-item"><div class="ra-badge ra5">RA5</div><div class="ra-text"><div class="rt-label">Culture</div><div class="rt-desc">Understand how culture shapes professional communication</div></div></div>
+  </div>
+
+  <!-- TERM 1 -->
+  <div class="term-header th-t1">
+    <h2>📘 Term 1 — September to December</h2>
+    <span class="th-meta">Units 1 · 2 · 3 → fused as B1 · 4 · 5 · Radio Project</span>
+  </div>
+
+  <!-- B1 -->
+  <div class="block-card">
+    <div class="block-header" onclick="toggleBlock('b1')">
+      <div class="block-num b-t1">B1</div>
+      <div class="block-header-text">
+        <div class="block-unit">Units 1 + 3 · Marketing and Publicity Companies · Marketing Department</div>
+        <div class="block-title">Onboarding GlobalSpark</div>
+        <div class="block-sa">SA1 + SA3 — You join the agency and receive your first brief</div>
+        <div class="block-chips">
+          <span class="block-chip bc-ra">RA2</span><span class="block-chip bc-ra">RA3</span><span class="block-chip bc-ra">RA4</span>
+          <span class="block-chip bc-oral">Job Interview</span>
+          <span class="block-chip bc-oral">Pitch Meeting</span>
+          <span class="block-chip bc-writing">Cover Letter ✏️</span>
+        </div>
+      </div>
+      <div class="block-arrow" id="arrow-b1">▼</div>
+    </div>
+    <div class="block-body" id="body-b1">
+      <div class="block-grid">
+        <div class="bg-card bg-oral">
+          <h4>🎙 Speaking activities</h4>
+          <ul>
+            <li>Job Interview Role-play — you apply for your position at GlobalSpark</li>
+            <li>Pitch Meeting Instructions — you receive the first client brief out loud and reproduce it</li>
+          </ul>
+        </div>
+        <div class="bg-card bg-writing">
+          <h4>✏️ Writing activity</h4>
+          <ul>
+            <li>Cover Letter for a marketing agency position</li>
+            <li>Genre: formal letter · Format: 4 paragraphs · 150–180 words</li>
+            <li>Assessed in class without the model</li>
+          </ul>
+        </div>
+      </div>
+      <div class="book-link">
+        <div>
+          <div class="bl-label">From the book</div>
+          <strong>Unit 1</strong> — Companies, Work &amp; Employment, CV / Cover Letter &nbsp;·&nbsp; <strong>Unit 3</strong> — Marketing Department, Roles, Campaign Briefing
+        </div>
+      </div>
+      <div class="sa-narrative">💼 <strong>Agency story:</strong> GlobalSpark has just signed its first international client — GreenLife Organics. The agency is growing fast and needs new talent. You apply, get the job, and immediately receive your first creative brief.</div>
+    </div>
+  </div>
+
+  <!-- B2 -->
+  <div class="block-card">
+    <div class="block-header" onclick="toggleBlock('b2')">
+      <div class="block-num b-t1">B2</div>
+      <div class="block-header-text">
+        <div class="block-unit">Unit 2 · Trends</div>
+        <div class="block-title">The Trends Report</div>
+        <div class="block-sa">SA2 — Research consumer trends for GreenLife Organics before the pitch</div>
+        <div class="block-chips">
+          <span class="block-chip bc-ra">RA1</span><span class="block-chip bc-ra">RA2</span><span class="block-chip bc-ra">RA3</span><span class="block-chip bc-ra">RA4</span>
+          <span class="block-chip bc-oral">Podcast Listening</span>
+          <span class="block-chip bc-oral">Trends Debate</span>
+          <span class="block-chip bc-writing">Internal Email ✏️</span>
+        </div>
+      </div>
+      <div class="block-arrow" id="arrow-b2">▼</div>
+    </div>
+    <div class="block-body" id="body-b2">
+      <div class="block-grid">
+        <div class="bg-card bg-oral">
+          <h4>🎙 Speaking activities</h4>
+          <ul>
+            <li>Listening Log — marketing trends podcast (at home, formative)</li>
+            <li>Trends Debate — defend the trend most relevant to GreenLife in 60 seconds</li>
+          </ul>
+        </div>
+        <div class="bg-card bg-writing">
+          <h4>✏️ Writing activity</h4>
+          <ul>
+            <li>Intra-office email on consumer trends</li>
+            <li>Genre: professional internal email · 100–130 words</li>
+            <li>Includes subject line + bullet-point trend summary</li>
+          </ul>
+        </div>
+      </div>
+      <div class="book-link">
+        <div>
+          <div class="bl-label">From the book</div>
+          <strong>Unit 2</strong> — Trends, Consumer Behaviour, Statistics &amp; Data, Brand Identity
+        </div>
+      </div>
+      <div class="sa-narrative">💼 <strong>Agency story:</strong> Before GlobalSpark pitches anything to GreenLife, the team needs to know what consumers are thinking. The winning trend from your debate will become the campaign's strategic insight in B1's brief.</div>
+    </div>
+  </div>
+
+  <!-- B3 -->
+  <div class="block-card">
+    <div class="block-header" onclick="toggleBlock('b3')">
+      <div class="block-num b-t1">B3</div>
+      <div class="block-header-text">
+        <div class="block-unit">Unit 4 · Office Administration</div>
+        <div class="block-title">Keep the Calendar</div>
+        <div class="block-sa">SA4 — Manage three clients across two time zones with one Friday deadline</div>
+        <div class="block-chips">
+          <span class="block-chip bc-ra">RA2</span><span class="block-chip bc-ra">RA3</span><span class="block-chip bc-ra">RA4</span><span class="block-chip bc-ra">RA5</span>
+          <span class="block-chip bc-oral">Phone Role-play</span>
+          <span class="block-chip bc-oral">Office Etiquette</span>
+          <span class="block-chip bc-writing">Formal Email ✏️</span>
+        </div>
+      </div>
+      <div class="block-arrow" id="arrow-b3">▼</div>
+    </div>
+    <div class="block-body" id="body-b3">
+      <div class="block-grid">
+        <div class="bg-card bg-oral">
+          <h4>🎙 Speaking activities</h4>
+          <ul>
+            <li>Rescheduling a Meeting — back-to-back telephone role-play</li>
+            <li>Office Etiquette Across Cultures — Spain vs UK communication norms (formative)</li>
+          </ul>
+        </div>
+        <div class="bg-card bg-writing">
+          <h4>✏️ Writing activity</h4>
+          <ul>
+            <li>Formal email rescheduling a client meeting</li>
+            <li>Genre: formal email · 100–130 words · No contractions</li>
+            <li>Includes apology + two alternative times</li>
+          </ul>
+        </div>
+      </div>
+      <div class="book-link">
+        <div>
+          <div class="bl-label">From the book</div>
+          <strong>Unit 4</strong> — Managing People, Office IT, Telephoning, Scheduling, Formal Email Conventions
+        </div>
+      </div>
+      <div class="sa-narrative">💼 <strong>Agency story:</strong> An internal presentation clashes with the GreenLife client meeting. You fix it by phone — professionally, in English. You then discover that British clients expect punctuality and a different communication style than Spanish ones.</div>
+    </div>
+  </div>
+
+  <!-- B4 -->
+  <div class="block-card">
+    <div class="block-header" onclick="toggleBlock('b4')">
+      <div class="block-num b-t1">B4</div>
+      <div class="block-header-text">
+        <div class="block-unit">Unit 5 · Banking and Finance</div>
+        <div class="block-title">Show Me the Numbers</div>
+        <div class="block-sa">SA5 — Justify GlobalSpark's campaign budget to the bank</div>
+        <div class="block-chips">
+          <span class="block-chip bc-ra">RA1</span><span class="block-chip bc-ra">RA2</span><span class="block-chip bc-ra">RA3</span><span class="block-chip bc-ra">RA4</span>
+          <span class="block-chip bc-oral">Listening Table</span>
+          <span class="block-chip bc-oral">90-sec Explainer</span>
+          <span class="block-chip bc-writing">Meeting Minutes ✏️</span>
+        </div>
+      </div>
+      <div class="block-arrow" id="arrow-b4">▼</div>
+    </div>
+    <div class="block-body" id="body-b4">
+      <div class="block-grid">
+        <div class="bg-card bg-oral">
+          <h4>🎙 Speaking activities</h4>
+          <ul>
+            <li>Banking Crisis Listening — comprehension table (formative, extends book listening)</li>
+            <li>90-Second Financial Explainer — explain a banking concept to a non-specialist</li>
+          </ul>
+        </div>
+        <div class="bg-card bg-writing">
+          <h4>✏️ Writing activity</h4>
+          <ul>
+            <li>Meeting minutes — GlobalSpark bank meeting</li>
+            <li>Genre: formal minutes document · 130–160 words</li>
+            <li>Reported speech throughout · Action points with deadlines</li>
+          </ul>
+        </div>
+      </div>
+      <div class="book-link">
+        <div>
+          <div class="bl-label">From the book</div>
+          <strong>Unit 5</strong> — Banking &amp; Finance, Money Management, Financial Statements, Meeting Minutes
+        </div>
+      </div>
+      <div class="sa-narrative">💼 <strong>Agency story:</strong> GlobalSpark needs a bank loan to cover campaign costs before GreenLife pays. You must explain the financial plan to the bank manager — in English, clearly, without jargon — and write the official meeting minutes.</div>
+    </div>
+  </div>
+
+  <!-- PROJECT 1T -->
+  <div class="project-card">
+    <div class="proj-icon">🎙</div>
+    <div class="proj-content">
+      <div class="pc-tag">Term 1 Project · Summative · 2 sessions</div>
+      <h3>Marketing Trends Today — GlobalSpark Radio Programme</h3>
+      <p>GlobalSpark launches its English-language radio programme on the school station. Your team produces a real episode: a Trend Report segment (B2), a Company Profile (B1), and a simulated interview (B1). You write the script, rehearse, and record. This is the biggest oral assessment of Term 1.</p>
+      <div class="pc-chips">
+        <span class="pc-chip">RA1 · RA3 · RA5</span>
+        <span class="pc-chip">Summative</span>
+        <span class="pc-chip">Team production</span>
+        <span class="pc-chip">School radio</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERM 2 -->
+  <div class="term-header th-t2">
+    <h2>📙 Term 2 — January to March</h2>
+    <span class="th-meta">Units 6 · 7+8 fused as B6 · 9 · 10 · Big Pitch Project</span>
+  </div>
+
+  <!-- B5 -->
+  <div class="block-card">
+    <div class="block-header" onclick="toggleBlock('b5')">
+      <div class="block-num b-t2">B5</div>
+      <div class="block-header-text">
+        <div class="block-unit">Unit 6 · Publicity and Advertising</div>
+        <div class="block-title">The Big Campaign</div>
+        <div class="block-sa">SA6 — Launch GlobalSpark's first international campaign for GreenLife</div>
+        <div class="block-chips">
+          <span class="block-chip bc-ra">RA1</span><span class="block-chip bc-ra">RA2</span><span class="block-chip bc-ra">RA3</span><span class="block-chip bc-ra">RA4</span><span class="block-chip bc-ra">RA5</span>
+          <span class="block-chip bc-oral">Campaign Autopsy</span>
+          <span class="block-chip bc-oral">Cultural Comparison</span>
+          <span class="block-chip bc-writing">Commercial Script ✏️</span>
+        </div>
+      </div>
+      <div class="block-arrow" id="arrow-b5">▼</div>
+    </div>
+    <div class="block-body" id="body-b5">
+      <div class="block-grid">
+        <div class="bg-card bg-oral">
+          <h4>🎙 Speaking activities</h4>
+          <ul>
+            <li>Campaign Autopsy — analyse a real famous campaign (Cannes Lions / Dove / Pepsi) under 4 headings and present to the class</li>
+            <li>Cultural Advertising Comparison — how would this campaign change for a different market? (formative)</li>
+          </ul>
+        </div>
+        <div class="bg-card bg-writing">
+          <h4>✏️ Writing activity</h4>
+          <ul>
+            <li>30-second commercial script for GreenLife Organics</li>
+            <li>Genre: video script · hook / problem / solution / CTA / tagline</li>
+            <li>Tagline: 6 words maximum</li>
+          </ul>
+        </div>
+      </div>
+      <div class="book-link">
+        <div>
+          <div class="bl-label">From the book</div>
+          <strong>Unit 6</strong> — Publicity &amp; Advertising, Persuasive Language, Super Bowl &amp; Cannes Lions, Creating a Commercial
+        </div>
+      </div>
+      <div class="sa-narrative">💼 <strong>Agency story:</strong> GreenLife wants a campaign that works in Spain, the UK and Australia. Same product — three different audiences. You study what makes great advertising work across cultures, then write the actual script for the campaign.</div>
+    </div>
+  </div>
+
+  <!-- B6 -->
+  <div class="block-card">
+    <div class="block-header" onclick="toggleBlock('b6')">
+      <div class="block-num b-t2">B6</div>
+      <div class="block-header-text">
+        <div class="block-unit">Units 7 + 8 · E-Business + Digital Marketing</div>
+        <div class="block-title">Go Digital</div>
+        <div class="block-sa">SA8 — Transform a traditional client into a digital brand</div>
+        <div class="block-chips">
+          <span class="block-chip bc-ra">RA2</span><span class="block-chip bc-ra">RA3</span><span class="block-chip bc-ra">RA4</span><span class="block-chip bc-ra">RA5</span>
+          <span class="block-chip bc-oral">Hackathon Pitch</span>
+          <span class="block-chip bc-oral">Netiquette</span>
+          <span class="block-chip bc-writing">Social Media Strategy ✏️</span>
+          <span class="block-chip bc-eval">2 units fused</span>
+        </div>
+      </div>
+      <div class="block-arrow" id="arrow-b6">▼</div>
+    </div>
+    <div class="block-body" id="body-b6">
+      <div class="block-grid">
+        <div class="bg-card bg-oral">
+          <h4>🎙 Speaking activities</h4>
+          <ul>
+            <li>Digital Transformation Hackathon Pitch — 2-minute pitch, no slides, strict timer</li>
+            <li>Netiquette Across Cultures — how digital communication norms differ by country (formative)</li>
+          </ul>
+        </div>
+        <div class="bg-card bg-writing">
+          <h4>✏️ Writing activity</h4>
+          <ul>
+            <li>Social Media Strategy — 3 posts for the same product on Instagram, X and LinkedIn</li>
+            <li>Three different tones, three different audiences, one brand</li>
+            <li>150–200 words total across all three platforms</li>
+          </ul>
+        </div>
+      </div>
+      <div class="book-link">
+        <div>
+          <div class="bl-label">From the book</div>
+          <strong>Unit 7</strong> — E-Commerce, SWOT Analysis, Online Safety, Letter of Apology &nbsp;·&nbsp; <strong>Unit 8</strong> — Digital Marketing, Social Media, Neil Patel, Netiquette
+        </div>
+      </div>
+      <div class="sa-narrative">💼 <strong>Agency story:</strong> La Tienda del Campo — a traditional olive oil producer from Jaén — has never had a social media account. GlobalSpark wins the brief to take them fully digital in six months. You pitch the transformation plan and design their launch content.</div>
+    </div>
+  </div>
+
+  <!-- B7 -->
+  <div class="block-card">
+    <div class="block-header" onclick="toggleBlock('b7')">
+      <div class="block-num b-t2">B7</div>
+      <div class="block-header-text">
+        <div class="block-unit">Unit 9 · International Relations</div>
+        <div class="block-title">Going Global</div>
+        <div class="block-sa">SA9 — Adapt the GreenLife campaign for the UK market</div>
+        <div class="block-chips">
+          <span class="block-chip bc-ra">RA2</span><span class="block-chip bc-ra">RA3</span><span class="block-chip bc-ra">RA4</span><span class="block-chip bc-ra">RA5</span>
+          <span class="block-chip bc-oral">Campaign Comparison</span>
+          <span class="block-chip bc-writing">Agency Brochure ✏️</span>
+          <span class="block-chip bc-eval">F→S writing</span>
+        </div>
+      </div>
+      <div class="block-arrow" id="arrow-b7">▼</div>
+    </div>
+    <div class="block-body" id="body-b7">
+      <div class="block-grid">
+        <div class="bg-card bg-oral">
+          <h4>🎙 Speaking activities</h4>
+          <ul>
+            <li>International Campaign Comparison — analyse how a real brand adapted the same campaign for two different markets (McDonald's, IKEA)</li>
+            <li>90-second pair presentation + class discussion</li>
+          </ul>
+        </div>
+        <div class="bg-card bg-writing">
+          <h4>✏️ Writing activity (F→S)</h4>
+          <ul>
+            <li>GlobalSpark agency brochure — targeting UK brand partners</li>
+            <li>Genre: professional brochure · 150–200 words · 6 sections</li>
+            <li>Practise at home with the model → new prompt assessed in class</li>
+          </ul>
+        </div>
+      </div>
+      <div class="book-link">
+        <div>
+          <div class="bl-label">From the book</div>
+          <strong>Unit 9</strong> — International Marketing Strategies, Cultural Awareness, Negotiation Styles, Creating a Brochure
+        </div>
+      </div>
+      <div class="sa-narrative">💼 <strong>Agency story:</strong> GreenLife wants to enter the UK market. What stays the same? What changes? What breaks? You study how international brands adapt — then write the GlobalSpark brochure that will attract UK clients.</div>
+    </div>
+  </div>
+
+  <!-- B8 -->
+  <div class="block-card">
+    <div class="block-header" onclick="toggleBlock('b8')">
+      <div class="block-num b-t2">B8</div>
+      <div class="block-header-text">
+        <div class="block-unit">Unit 10 · Customer Service</div>
+        <div class="block-title">The Client is Always Right (Almost)</div>
+        <div class="block-sa">SA10 — Handle a very unhappy client and protect the agency's reputation</div>
+        <div class="block-chips">
+          <span class="block-chip bc-ra">RA2</span><span class="block-chip bc-ra">RA3</span><span class="block-chip bc-ra">RA4</span>
+          <span class="block-chip bc-oral">Live Customer Call</span>
+          <span class="block-chip bc-writing">Review Response ✏️</span>
+        </div>
+      </div>
+      <div class="block-arrow" id="arrow-b8">▼</div>
+    </div>
+    <div class="block-body" id="body-b8">
+      <div class="block-grid">
+        <div class="bg-card bg-oral">
+          <h4>🎙 Speaking activities</h4>
+          <ul>
+            <li>Live Customer Call — back-to-back telephone role-play with an angry client</li>
+            <li>Must reach a resolution within 8 minutes · professional register under pressure</li>
+          </ul>
+        </div>
+        <div class="bg-card bg-writing">
+          <h4>✏️ Writing activity</h4>
+          <ul>
+            <li>Public response to a 2-star Google review</li>
+            <li>Genre: review response · 80–120 words · Public-facing professional register</li>
+            <li>15 minutes in class — the most high-stakes short writing of the year</li>
+          </ul>
+        </div>
+      </div>
+      <div class="book-link">
+        <div>
+          <div class="bl-label">From the book</div>
+          <strong>Unit 10</strong> — Customer Service, Handling Complaints, Telephoning, Review Responses
+        </div>
+      </div>
+      <div class="sa-narrative">💼 <strong>Agency story:</strong> A client left GlobalSpark a 2-star review on Google. Everyone can read it — future clients, competitors, potential employees. What you say next matters more than almost anything you've done all year.</div>
+    </div>
+  </div>
+
+  <!-- PROJECT 2T -->
+  <div class="project-card">
+    <div class="proj-icon">🏆</div>
+    <div class="proj-content">
+      <div class="pc-tag">Term 2 Project · Summative · 2 sessions</div>
+      <h3>The Big Pitch — GlobalSpark's Campaign of the Year</h3>
+      <p>GlobalSpark presents its campaign of the year. Your team submits a written brief (assessed in class), delivers a 4–5 minute oral pitch to a panel of "investors," and records a 30-second radio advertisement for the school station. This closes the year's narrative — your agency has grown from a job interview in September to pitching a full campaign in March.</p>
+      <div class="pc-chips">
+        <span class="pc-chip">RA3 · RA4 · RA5</span>
+        <span class="pc-chip">Summative</span>
+        <span class="pc-chip">Written brief + oral pitch + radio ad</span>
+        <span class="pc-chip">School radio</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASSESSMENT -->
+  <div class="section-label" style="margin-top:2rem">How you are assessed</div>
+  <div class="assess-card">
+    <h2>Assessment breakdown</h2>
+    <div class="assess-grid">
+      <div class="assess-item">
+        <div class="ai-pct">15%</div>
+        <div class="ai-label">RA1 Listening</div>
+        <div class="ai-badge" style="background:#e8f0fc;color:#1a4ab0">Oral comprehension</div>
+      </div>
+      <div class="assess-item">
+        <div class="ai-pct">15%</div>
+        <div class="ai-label">RA2 Reading</div>
+        <div class="ai-badge" style="background:#e8f5ec;color:#155c2a">Written comprehension</div>
+      </div>
+      <div class="assess-item">
+        <div class="ai-pct">15%</div>
+        <div class="ai-label">RA3 + RA5 Speaking &amp; Culture</div>
+        <div class="ai-badge" style="background:#fef4e0;color:#7a4400">Oral production · Intercultural</div>
+      </div>
+      <div class="assess-item" style="border:2px solid #c8b4f0;background:#faf7ff">
+        <div class="ai-pct" style="color:#4b1fa3">55%</div>
+        <div class="ai-label" style="font-weight:700;color:#4b1fa3">RA4 — Written production &amp; language</div>
+        <div style="margin-top:0.6rem;display:flex;flex-direction:column;gap:0.4rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;background:#f0eafc;border-radius:6px;padding:4px 9px">
+            <span style="font-size:0.78rem;font-weight:600;color:#4b1fa3">Written productions</span>
+            <span style="font-size:1rem;font-weight:900;color:#4b1fa3">15%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:#e8dff8;border-radius:6px;padding:4px 9px">
+            <span style="font-size:0.78rem;font-weight:600;color:#3a1880">Use of English</span>
+            <span style="font-size:1rem;font-weight:900;color:#3a1880">40%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="info-box" style="margin-top:1rem;margin-bottom:0">
+      <strong>Important:</strong> All writing that counts toward your grade is done <strong>in class, without looking at the model</strong>. You practise the writing type at home first (with a model and examples in your dossier), then produce a new text in class under exam conditions. This is how professional certification exams like Cambridge B2 work.
+    </div>
+  </div>
+
+  <!-- NARRATIVE THREAD -->
+  <div class="section-label">How the blocks connect</div>
+  <div class="info-box">
+    The blocks are not independent. They follow a <strong>single agency story</strong>:<br><br>
+    The trend you defend in <strong>B2</strong> becomes the strategic insight for the GreenLife brief in <strong>B1</strong>. The bank meeting minutes from <strong>B4</strong> appear in the Term 1 radio programme. The campaign you analyse in <strong>B5</strong> informs the cultural adaptation you do in <strong>B7</strong>. The client you rescue in <strong>B8</strong> is the same agency whose brochure you wrote in <strong>B7</strong>. And the Big Pitch in Term 2 is GlobalSpark proving — after a full year — that it can deliver a complete, professional campaign from brief to broadcast.
+  </div>
+
+</div>
+
+<script>
+function toggleBlock(id) {
+  const body  = document.getElementById("body-" + id);
+  const arrow = document.getElementById("arrow-" + id);
+  const isOpen = body.classList.toggle("open");
+  arrow.classList.toggle("open", isOpen);
+}
+// Open B1 by default
+toggleBlock("b1");
+</script>
+</body>
+</html>
