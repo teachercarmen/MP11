@@ -852,136 +852,109 @@ body{
   </div>
 
   <div class="btn-row">
-    <button class="btn btn-gold" onclick="goTo(4)">Go to Agency Missions →</button>
+    <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1.1rem;background:#f0f4f6;border:1.5px solid #cfd8dc;border-radius:8px;color:#607d8b;font-size:0.88rem;font-weight:600">
+  <span style="font-size:1.2rem">🔒</span>
+  <span>Agency Missions — coming soon. Your team is confirmed. First briefing in a couple of weeks.</span>
+</div>
     <button class="btn btn-outline" onclick="addDemoCards()">+ Add demo cards</button>
   </div>
 </div>
 
 <!-- ══════════════ SCREEN 4 · MISSIONS ══════════════ -->
-<div class="screen" id="screen4">
+</div>
+<div class="screen" id="screen4" style="display:none!important">
   <div class="gallery-header">
+    <h2>Your First Mission</h2>
+    <p>Read the brief carefully with your team. You have 5 minutes to prepare. Then 30 seconds to present your idea to the class.</p>
+  </div>
+
+    <div class="gallery-header" style="margin-bottom:0.5rem">
     <h2>Agency Missions</h2>
-    <p>Your first client briefs. Work with your team. You have 5 minutes. Then pitch in 60 seconds.</p>
+    <p>Your team has one mission. Read it carefully. You have 5 minutes to prepare, then 30 seconds to present to the class.</p>
+  </div>
+  <div style="background:#1b3a4b;border-radius:10px;padding:0.75rem 1.25rem;margin-bottom:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:0.6rem">
+    <span style="font-size:1.1rem">👥</span>
+    <span>Your teacher will tell you which mission your team has — A, B or C.</span>
   </div>
 
-  <!-- PITCH BUILDER -->
-  <div class="pitch-builder">
-    <div class="pb-header" onclick="togglePitchBuilder()">
-      <h3>🎤 How to build your 60-second pitch — guided structure</h3>
-      <span class="pb-tag" id="pbToggleLabel">Tap to open ▼</span>
-    </div>
-    <div class="pb-body" id="pitchBuilderBody">
-      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.1rem">Your team has 5 minutes to prepare. Use this structure. Each person can take one or two steps. You don't need slides — just speak clearly.</p>
-
-      <div class="pb-steps">
-        <div class="pb-step">
-          <div class="pb-step-num">1</div>
-          <div class="pb-step-content">
-            <div class="pbs-time">⏱ 10 seconds</div>
-            <div class="pbs-label">Hook — grab attention immediately</div>
-            <div class="pbs-model">"Every day, <span class="pf">[surprising fact or number]</span>. That's the world our client is entering."</div>
-            <div class="pbs-alts"><strong>Other options:</strong> Start with a question — "How many of you bought something because of an Instagram post?" · Start with a problem — "The problem is nobody knows this brand exists. Yet."</div>
-          </div>
-        </div>
-        <div class="pb-step">
-          <div class="pb-step-num">2</div>
-          <div class="pb-step-content">
-            <div class="pbs-time">⏱ 10 seconds</div>
-            <div class="pbs-label">Client &amp; challenge</div>
-            <div class="pbs-model">"Our client is <span class="pf">[client name]</span>. They <span class="pf">[one sentence about what they do]</span>. The challenge: <span class="pf">[the problem to solve]</span>."</div>
-            <div class="pbs-alts"><strong>Useful words:</strong> target audience · brand awareness · online presence · market · competitors</div>
-          </div>
-        </div>
-        <div class="pb-step">
-          <div class="pb-step-num">3</div>
-          <div class="pb-step-content">
-            <div class="pbs-time">⏱ 20 seconds</div>
-            <div class="pbs-label">Our idea — the campaign concept</div>
-            <div class="pbs-model">"Our campaign is called <span class="pf">[campaign name]</span>. The tagline is: <span class="pf">[tagline — 6 words or fewer]</span>. The idea is <span class="pf">[explain in 2 sentences]</span>."</div>
-            <div class="pbs-alts"><strong>Useful words:</strong> campaign · concept · visual · message · content · launch · platform · hashtag · viral · engagement</div>
-          </div>
-        </div>
-        <div class="pb-step">
-          <div class="pb-step-num">4</div>
-          <div class="pb-step-content">
-            <div class="pbs-time">⏱ 10 seconds</div>
-            <div class="pbs-label">Why it will work</div>
-            <div class="pbs-model">"This works because <span class="pf">[reason — connect to the target audience]</span>. Our target audience is <span class="pf">[who]</span> and they <span class="pf">[what they care about]</span>."</div>
-            <div class="pbs-alts"><strong>Useful words:</strong> resonate with · connect with · appeal to · relevant to · authentic · trust · values · lifestyle</div>
-          </div>
-        </div>
-        <div class="pb-step">
-          <div class="pb-step-num">5</div>
-          <div class="pb-step-content">
-            <div class="pbs-time">⏱ 10 seconds</div>
-            <div class="pbs-label">Call to action — close strong</div>
-            <div class="pbs-model">"We are GlobalSpark. We make brands <span class="pf">[one powerful word]</span>. Give us this brief — we'll make it happen."</div>
-            <div class="pbs-alts"><strong>Other closings:</strong> "Thank you — any questions?" · "We're ready to start tomorrow." · "This campaign will put [client] on the map."</div>
-          </div>
+  <div style="
+  display:flex;gap:1rem;align-items:flex-start;
+  background:#fff;border:1px solid #cfd8dc;border-radius:12px;
+  padding:1.25rem 1.4rem;margin-bottom:1rem;
+">
+    <div style="width:36px;height:36px;border-radius:50%;background:#00bcd4;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;flex-shrink:0">A</div>
+    <div style="flex:1">
+      <h3 style="font-size:0.97rem;font-weight:700;color:#1b3a4b;margin-bottom:0.5rem">Mission A · GreenLife Organics</h3>
+      <div style="background:#f0f4f6;border-radius:8px;padding:0.85rem 1rem;margin-bottom:0.85rem;font-size:0.87rem;color:#455a64;line-height:1.65">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem">
+          <div><span style="font-weight:700;color:#1b3a4b">Client:</span> GreenLife Organics</div><div><span style="font-weight:700;color:#1b3a4b">Platform:</span> Instagram</div><div><span style="font-weight:700;color:#1b3a4b">Product:</span> Plant-based snacks</div><div><span style="font-weight:700;color:#1b3a4b">Budget:</span> €2,000</div><div><span style="font-weight:700;color:#1b3a4b">Audience:</span> 20–30 year-olds in Spanish cities</div><div><span style="font-weight:700;color:#1b3a4b">They care about:</span> sustainability · good taste · social media</div>
         </div>
       </div>
-
-      <div class="pb-tips">
-        <div class="pb-tip">
-          <div class="pt-label">🗣 Delivery tips</div>
-          <p>Speak slowly — especially in English. Look at your audience, not at your notes. One person speaks at a time. Practice once before you pitch.</p>
+      <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:0.85rem 1rem;margin-bottom:0.85rem">
+        <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#f57f17;margin-bottom:0.5rem">Your task — agree as a team on:</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.87rem;color:#4a3000">
+          <div>📸 <strong>The image:</strong> what does the photo show?</div><div>✍️ <strong>The caption:</strong> maximum 3 lines in English</div><div>#️⃣ <strong>One hashtag:</strong> 6 words maximum</div>
         </div>
-        <div class="pb-tip">
-          <div class="pt-label">⚠️ Common mistakes</div>
-          <p>Don't read from your phone. Don't say "ummm" — pause instead. Don't apologise for your English. Don't go over 60 seconds.</p>
-        </div>
-        <div class="pb-tip">
-          <div class="pt-label">📝 Prepare in 5 minutes</div>
-          <p>1. Read the brief together (1 min). 2. Agree on the idea (2 min). 3. Assign each person a step from the structure above (1 min). 4. Quick run-through (1 min). Done.</p>
-        </div>
-        <div class="pb-tip">
-          <div class="pt-label">✅ What makes a great pitch</div>
-          <p>A clear idea · a memorable tagline · a specific target audience · at least one concrete detail (a number, a platform, an image). Confidence beats perfection.</p>
-        </div>
+      </div>
+      <div style="background:#e0f7fa;border-radius:8px;padding:0.75rem 1rem;font-size:0.84rem;color:#006064">
+        <strong>Present in 30 seconds:</strong> "Our post shows [image]. The caption says [text]. Our hashtag is [hashtag]. We chose this because [one reason]."
       </div>
     </div>
   </div>
 
-  <div class="missions-wrap">
-    <div class="mission-item">
-      <div class="mission-num">A</div>
-      <div class="mission-content">
-        <h3>The GreenLife Brief</h3>
-        <p>GreenLife Organics makes sustainable plant-based snacks. They want to launch on Instagram and TikTok for the first time. They have a budget of €5,000. Their target audience is 18–30 year-olds in Spanish cities who care about the environment but also want food that tastes good.</p>
-        <p><strong>Your task:</strong> Come up with a campaign name, a tagline (under 6 words), and ONE specific idea for their first piece of content. What would you post? What would it look like?</p>
-        <span class="target">🎯 Pitch to the class in 60 seconds</span>
+  <div style="
+  display:flex;gap:1rem;align-items:flex-start;
+  background:#fff;border:1px solid #cfd8dc;border-radius:12px;
+  padding:1.25rem 1.4rem;margin-bottom:1rem;
+">
+    <div style="width:36px;height:36px;border-radius:50%;background:#c03060;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;flex-shrink:0">B</div>
+    <div style="flex:1">
+      <h3 style="font-size:0.97rem;font-weight:700;color:#1b3a4b;margin-bottom:0.5rem">Mission B · ShopNow.es — Crisis</h3>
+      <div style="background:#f0f4f6;border-radius:8px;padding:0.85rem 1rem;margin-bottom:0.85rem;font-size:0.87rem;color:#455a64;line-height:1.65">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem">
+          <div><span style="font-weight:700;color:#1b3a4b">Client:</span> ShopNow.es (online shop)</div><div><span style="font-weight:700;color:#1b3a4b">Problem:</span> They posted a wrong price by mistake</div><div><span style="font-weight:700;color:#1b3a4b">Product affected:</span> GreenLife Organics hamper, posted at €5 instead of €50</div><div><span style="font-weight:700;color:#1b3a4b">Time:</span> It happened 1 hour ago</div><div><span style="font-weight:700;color:#1b3a4b">Followers:</span> 12,000 on Instagram</div><div><span style="font-weight:700;color:#1b3a4b">Your job:</span> Fix the mistake professionally</div>
+        </div>
       </div>
-    </div>
-
-    <div class="mission-item">
-      <div class="mission-num">B</div>
-      <div class="mission-content">
-        <h3>The Crisis Brief</h3>
-        <p>A Spanish fashion brand has just accidentally posted an offensive meme on their official Instagram account. It has 4,500 likes and 800 angry comments. The CEO is panicking. It is 9am on a Monday.</p>
-        <p><strong>Your task:</strong> What do you do in the next 60 minutes? Give three specific actions in order of priority. Decide who does what. Draft the first sentence of the public apology post in English.</p>
-        <span class="target">🎯 Pitch to the class in 60 seconds</span>
+      <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:0.85rem 1rem;margin-bottom:0.85rem">
+        <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#f57f17;margin-bottom:0.5rem">Your task — agree as a team on:</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.87rem;color:#4a3000">
+          <div>🚨 <strong>Action 1:</strong> delete the post or correct it? decide</div><div>✍️ <strong>The apology:</strong> write 2 sentences in English — say sorry and explain</div><div>🎁 <strong>The solution:</strong> offer something to the customers who saw the wrong price</div>
+        </div>
       </div>
-    </div>
-
-    <div class="mission-item">
-      <div class="mission-num">C</div>
-      <div class="mission-content">
-        <h3>The New Client Brief</h3>
-        <p>A traditional Spanish olive oil producer from Jaén — La Tienda del Campo — wants to sell to UK supermarkets for the first time. They have never done marketing in English. They don't know what makes them different from any other olive oil.</p>
-        <p><strong>Your task:</strong> Find ONE thing that makes them special (you can invent it). Create a name for their UK product line, a tagline in English, and describe the image for their packaging. What would you put on the label?</p>
-        <span class="target">🎯 Pitch to the class in 60 seconds</span>
+      <div style="background:#e0f7fa;border-radius:8px;padding:0.75rem 1rem;font-size:0.84rem;color:#006064">
+        <strong>Present in 30 seconds:</strong> "The problem was [problem]. We decided to [action]. Our message says [apology]. We offered [solution] because [reason]."
       </div>
     </div>
   </div>
 
+  <div style="
+  display:flex;gap:1rem;align-items:flex-start;
+  background:#fff;border:1px solid #cfd8dc;border-radius:12px;
+  padding:1.25rem 1.4rem;margin-bottom:1rem;
+">
+    <div style="width:36px;height:36px;border-radius:50%;background:#0d7a5f;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;flex-shrink:0">C</div>
+    <div style="flex:1">
+      <h3 style="font-size:0.97rem;font-weight:700;color:#1b3a4b;margin-bottom:0.5rem">Mission C · La Tienda del Campo</h3>
+      <div style="background:#f0f4f6;border-radius:8px;padding:0.85rem 1rem;margin-bottom:0.85rem;font-size:0.87rem;color:#455a64;line-height:1.65">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem">
+          <div><span style="font-weight:700;color:#1b3a4b">Client:</span> La Tienda del Campo</div><div><span style="font-weight:700;color:#1b3a4b">Product:</span> Extra virgin olive oil from Jaén</div><div><span style="font-weight:700;color:#1b3a4b">New market:</span> United Kingdom</div><div><span style="font-weight:700;color:#1b3a4b">Audience:</span> UK supermarket shoppers, 30–50 years old</div><div><span style="font-weight:700;color:#1b3a4b">Problem:</span> Nobody in the UK knows this brand</div><div><span style="font-weight:700;color:#1b3a4b">Budget:</span> €1,500 for packaging and one social media post</div>
+        </div>
+      </div>
+      <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:0.85rem 1rem;margin-bottom:0.85rem">
+        <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#f57f17;margin-bottom:0.5rem">Your task — agree as a team on:</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.87rem;color:#4a3000">
+          <div>🏷️ <strong>The name:</strong> create an English name for the product (not a translation)</div><div>💬 <strong>The tagline:</strong> maximum 5 words in English</div><div>🖼️ <strong>The packaging:</strong> describe ONE image or colour that represents the brand</div>
+        </div>
+      </div>
+      <div style="background:#e0f7fa;border-radius:8px;padding:0.75rem 1rem;font-size:0.84rem;color:#006064">
+        <strong>Present in 30 seconds:</strong> "The English name is [name]. Our tagline is [tagline]. The packaging shows [image] because [reason]."
+      </div>
+    </div>
+  </div>
   <div class="btn-row">
     <button class="btn btn-outline" onclick="goTo(3)">← Back to team</button>
-    <button class="btn btn-dark" onclick="resetAll()">↺ Start over (new class)</button>
   </div>
 </div>
-
-</div><!-- end .app -->
-
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 <script>
