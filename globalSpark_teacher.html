@@ -696,10 +696,25 @@ body{
 
 .no-groups{font-size:0.88rem;color:var(--muted);padding:1rem 0}
 
+
+/* ── Connection status ─────────────────────────────────────────── */
+#connStatus{position:fixed;top:10px;right:10px;z-index:9999;
+  font:600 12px/1.3 system-ui,sans-serif;padding:7px 12px;border-radius:20px;
+  display:flex;align-items:center;gap:7px;box-shadow:0 2px 10px rgba(0,0,0,.18);
+  cursor:pointer;max-width:80vw}
+#connStatus .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.cs-wait{background:#fff3cd;color:#7a5000;border:1px solid #e8c050}
+.cs-wait .dot{background:#e8a020}
+.cs-ok{background:#e8f5ec;color:#155c2a;border:1px solid #70c08a}
+.cs-ok .dot{background:#2e9e4f}
+.cs-bad{background:#fde8ee;color:#8a1a40;border:1px solid #e080a0}
+.cs-bad .dot{background:#c03060}
+#connStatus small{display:block;font-weight:400;opacity:.85;margin-top:2px}
 </style>
 </head>
 <body>
 
+<div id="connStatus" class="cs-wait" onclick="testConnection()"><span class="dot"></span><span id="connText">Checking connection…</span></div>
 <!-- TOP BAR -->
 <div class="top-bar">
   <div class="logo">
@@ -844,6 +859,47 @@ body{
 <div class="toast" id="toast"></div>
 
 <script>
+
+// ── Connection status ───────────────────────────────────────────────────────
+function setConn(state, msg, sub){
+  const el = document.getElementById("connStatus");
+  const tx = document.getElementById("connText");
+  if(!el || !tx) return;
+  el.className = "cs-" + state;
+  tx.innerHTML = msg + (sub ? "<small>" + sub + "</small>" : "");
+}
+async function testConnection(){
+  setConn("wait","Checking connection…");
+  if(!IS_CONFIGURED){
+    setConn("bad","Not configured","Add your JSONBin key and bin ID");
+    return false;
+  }
+  if(location.protocol === "file:"){
+    setConn("bad","Opened as a local file","Upload to GitHub Pages and open the https:// link");
+    return false;
+  }
+  try{
+    const res = await fetch(JSONBIN_URL + "/latest", {headers:{"X-Master-Key": JSONBIN_KEY}});
+    if(res.status === 401 || res.status === 403){
+      setConn("bad","Key rejected (" + res.status + ")","Check your Master Key in JSONBin");
+      return false;
+    }
+    if(res.status === 404){
+      setConn("bad","Bin not found (404)","Check your Bin ID");
+      return false;
+    }
+    if(!res.ok){ setConn("bad","Error " + res.status,"Try again in a moment"); return false; }
+    const data = await res.json();
+    const n = (data.record && data.record.cards ? data.record.cards.length : 0);
+    setConn("ok","Connected", n + " card" + (n===1?"":"s") + " in the bin");
+    return true;
+  }catch(e){
+    setConn("bad","Cannot reach JSONBin","Check your internet connection");
+    return false;
+  }
+}
+window.addEventListener("load", testConnection);
+
 // ── Cross-device sync via JSONBin.io ─────────────────────────────────────────
 // Setup (one-time, before first class):
 //   1. Go to https://jsonbin.io → Sign up free (email only)
@@ -852,8 +908,8 @@ body{
 //   4. Copy the Bin ID from the URL
 //   5. Paste both values below
 
-const JSONBIN_KEY = "PASTE_YOUR_MASTER_KEY_HERE";
-const JSONBIN_BIN = "PASTE_YOUR_BIN_ID_HERE";
+const JSONBIN_KEY = "$2a$10$0hcs/BuiTMYut5ga15PW5egE1rvNU6jUj3AjK7iP7zBIokzdFg6/2";
+const JSONBIN_BIN = "6aa1b411ac6210605ab96676";
 const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN}`;
 
 const IS_CONFIGURED = JSONBIN_KEY !== "PASTE_YOUR_MASTER_KEY_HERE" && JSONBIN_BIN !== "PASTE_YOUR_BIN_ID_HERE";
